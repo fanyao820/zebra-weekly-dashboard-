@@ -14,11 +14,9 @@
   <header class="header">
     <h1 class="header-title">🦓 斑马百科 · 产品营销周报看板</h1>
     <div class="header-nav">
-      <!-- 周次切换器 -->
+      <!-- 周次切换器（下拉选择） -->
       <div class="week-switcher">
-        <button id="prevWeek" aria-label="上一周">←</button>
-        <span id="currentWeekLabel">W23</span>
-        <button id="nextWeek" aria-label="下一周">→</button>
+        <select id="weekSelect" aria-label="选择周次"></select>
       </div>
       <!-- 操作按钮 -->
       <div class="header-actions">
@@ -38,11 +36,22 @@
   <!-- 周次副标题 -->
   <div class="week-subtitle" id="weekSubtitle">W23 (6.02-6.08)</div>
 
+  <!-- ===== 目录导航栏 ===== -->
+  <nav class="toc-nav" id="tocNav">
+    <a href="#section-okr">OKR完成情况</a>
+    <a href="#section-sales">总售卖数据</a>
+    <a href="#section-download">总下载拉新</a>
+    <a href="#section-internal">站内周数据</a>
+    <a href="#section-external">站外曝光</a>
+    <a href="#section-highlights">本周重点</a>
+    <a href="#section-nextweek">下周重点</a>
+  </nav>
+
   <!-- ===== 主内容区 ===== -->
   <main class="main-content">
 
     <!-- 一、OKR完成情况 -->
-    <section class="section">
+    <section class="section" id="section-okr">
       <div class="section-header">
         <span class="section-icon">🎯</span>
         <h2>OKR完成情况</h2>
@@ -54,7 +63,7 @@
 
     <!-- 二、数据总览 -->
     <!-- 2.1 总售卖数据 -->
-    <section class="section">
+    <section class="section" id="section-sales">
       <div class="section-header">
         <span class="section-icon">💰</span>
         <h2>总售卖数据</h2>
@@ -67,7 +76,7 @@
     </section>
 
     <!-- 2.2 总下载拉新数据 -->
-    <section class="section">
+    <section class="section" id="section-download">
       <div class="section-header">
         <span class="section-icon">📲</span>
         <h2>总下载拉新数据</h2>
@@ -80,7 +89,7 @@
     </section>
 
     <!-- 2.3 站内周数据 -->
-    <section class="section">
+    <section class="section" id="section-internal">
       <div class="section-header">
         <span class="section-icon">📊</span>
         <h2>站内周数据</h2>
@@ -127,7 +136,7 @@
     </section>
 
     <!-- 2.4 站外曝光数据（支持无数据自动隐藏） -->
-    <section class="section" id="externalSection">
+    <section class="section" id="section-external">
       <div class="section-header">
         <span class="section-icon">🌐</span>
         <h2>站外曝光数据</h2>
@@ -138,7 +147,7 @@
     </section>
 
     <!-- 三、本周重点 -->
-    <section class="section">
+    <section class="section" id="section-highlights">
       <div class="section-header">
         <span class="section-icon">⭐</span>
         <h2>本周重点</h2>
@@ -151,7 +160,7 @@
     </section>
 
     <!-- 四、下周重点 -->
-    <section class="section">
+    <section class="section" id="section-nextweek">
       <div class="section-header">
         <span class="section-icon">📋</span>
         <h2>下周重点</h2>

@@ -7,6 +7,7 @@ const MOCK_DATA = {
   // ===== W21 数据 =====
   W21: {
     weekLabel: "W21 (5.19-5.25)",
+    dateRange: "5.19-5.25",
     // OKR完成情况
     okr: [
       { title: "Q2整体GMV达成", target: "500万", current: "320万", progress: 64 },
@@ -98,6 +99,7 @@ const MOCK_DATA = {
   // ===== W22 数据 =====
   W22: {
     weekLabel: "W22 (5.26-6.01)",
+    dateRange: "5.26-6.01",
     okr: [
       { title: "Q2整体GMV达成", target: "500万", current: "380万", progress: 76 },
       { title: "站内转化率提升", target: "8%", current: "7.2%", progress: 90 },
@@ -196,6 +198,7 @@ const MOCK_DATA = {
   // ===== W23 数据 =====
   W23: {
     weekLabel: "W23 (6.02-6.08)",
+    dateRange: "6.02-6.08",
     okr: [
       { title: "Q2整体GMV达成", target: "500万", current: "425万", progress: 85 },
       { title: "站内转化率提升", target: "8%", current: "7.8%", progress: 97 },

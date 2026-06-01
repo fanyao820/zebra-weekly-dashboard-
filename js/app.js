@@ -20,21 +20,25 @@ const ADMIN_PASSWORD = "zebra2026";
 document.addEventListener('DOMContentLoaded', () => {
   // 从 localStorage 加载快照
   loadSnapshots();
+  // 初始化周选择器下拉框
+  initWeekSelector();
   // 初始化 Quill 编辑器
   initQuillEditor();
   // 渲染当前周数据
   renderWeek();
   // 绑定事件
-bindEvents();
-  // 更新导航状态
-  updateNavigation();
+  bindEvents();
+  // 初始化目录导航滚动监听
+  initTocNavigation();
 });
 
 // ===== 事件绑定 =====
 function bindEvents() {
-  // 周次切换
-  document.getElementById('prevWeek').addEventListener('click', () => switchWeek(-1));
-  document.getElementById('nextWeek').addEventListener('click', () => switchWeek(1));
+  // 周次下拉切换
+  document.getElementById('weekSelect').addEventListener('change', (e) => {
+    AppState.currentWeekIndex = parseInt(e.target.value, 10);
+    renderWeek();
+  });
 
   // 管理者登录
   document.getElementById('adminLoginBtn').addEventListener('click', showLoginModal);
@@ -59,27 +63,80 @@ function bindEvents() {
   document.getElementById('addRowBtn').addEventListener('click', addNextWeekRow);
 }
 
-// ===== 周次切换 =====
-function switchWeek(direction) {
-  const newIndex = AppState.currentWeekIndex + direction;
-  if (newIndex >= 0 && newIndex < AVAILABLE_WEEKS.length) {
-    AppState.currentWeekIndex = newIndex;
-    renderWeek();
-    updateNavigation();
-  }
+// ===== 周选择器初始化 =====
+function initWeekSelector() {
+  const select = document.getElementById('weekSelect');
+  // 填充选项：格式为 "W23 (6.02-6.08)"
+  AVAILABLE_WEEKS.forEach((weekKey, idx) => {
+    const data = MOCK_DATA[weekKey];
+    const option = document.createElement('option');
+    option.value = idx;
+    option.textContent = `${weekKey} (${data.dateRange})`;
+    select.appendChild(option);
+  });
+  // 默认选中最新周
+  select.value = AppState.currentWeekIndex;
 }
 
-function updateNavigation() {
-  const weekLabel = document.getElementById('currentWeekLabel');
-  const weekKey = AVAILABLE_WEEKS[AppState.currentWeekIndex];
-  weekLabel.textContent = weekKey;
+// ===== 目录导航 =====
+function initTocNavigation() {
+  const tocNav = document.getElementById('tocNav');
+  const tocLinks = tocNav.querySelectorAll('a');
+  const sectionIds = Array.from(tocLinks).map(a => a.getAttribute('href').slice(1));
 
-  // 更新按钮状态
-  document.getElementById('prevWeek').disabled = AppState.currentWeekIndex === 0;
-  document.getElementById('nextWeek').disabled = AppState.currentWeekIndex === AVAILABLE_WEEKS.length - 1;
+  // 点击平滑滚动
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').slice(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        const tocHeight = tocNav.offsetHeight;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - tocHeight - 10;
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      }
+    });
+  });
 
-  // 高亮当前周
-  weekLabel.className = AppState.currentWeekIndex === AVAILABLE_WEEKS.length - 1 ? 'current-week' : '';
+  // 滚动监听：高亮当前可视模块
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateTocHighlight(sectionIds, tocLinks);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // 初始高亮
+  updateTocHighlight(sectionIds, tocLinks);
+}
+
+function updateTocHighlight(sectionIds, tocLinks) {
+  const tocNav = document.getElementById('tocNav');
+  const offset = tocNav.offsetHeight + 20;
+  let activeId = sectionIds[0];
+
+  for (const id of sectionIds) {
+    const section = document.getElementById(id);
+    if (section && section.style.display !== 'none') {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= offset) {
+        activeId = id;
+      }
+    }
+  }
+
+  tocLinks.forEach(link => {
+    const linkTarget = link.getAttribute('href').slice(1);
+    if (linkTarget === activeId) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 }
 
 // ===== 权限系统 =====
@@ -162,6 +219,10 @@ function renderWeek() {
   const data = AppState.isSnapshot ? AppState.currentSnapshotData : MOCK_DATA[weekKey];
 
   if (!data) return;
+
+  // 同步下拉框选中状态
+  const select = document.getElementById('weekSelect');
+  if (select) select.value = AppState.currentWeekIndex;
 
   // 渲染各模块
   renderOKR(data.okr);
@@ -359,7 +420,7 @@ function renderBookReservation(data) {
 
 // 渲染站外曝光数据（支持无数据时隐藏）
 function renderExternalData(data) {
-  const section = document.getElementById('externalSection');
+  const section = document.getElementById('section-external');
 
   // 核心逻辑：无数据时自动隐藏
   if (!data || (!data.seeding?.length && !data.pr?.length)) {
@@ -572,7 +633,6 @@ function viewSnapshot(id) {
   if (weekIdx >= 0) AppState.currentWeekIndex = weekIdx;
 
   renderWeek();
-  updateNavigation();
   toggleSidebar();
 
   // 显示快照提示条
