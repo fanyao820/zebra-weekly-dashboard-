@@ -3,22 +3,22 @@
  * 响应式设计，移动优先
  */
 
-/* ===== CSS变量 — 营销部门活力配色 ===== */
+/* ===== CSS变量 — 高端简约配色（墨绿+金） ===== */
 :root {
-  --primary: #FF6B35;
-  --primary-light: #FF8F5E;
-  --primary-lighter: #FFA577;
-  --accent: #FF4757;
-  --success: #2ED573;
-  --warning: #FFA502;
-  --danger: #FF4757;
-  --bg: #FAFBFD;
+  --primary: #1B4332;
+  --primary-light: #2D6A4F;
+  --primary-lighter: #40916C;
+  --accent: #B08D57;
+  --success: #40916C;
+  --warning: #D4A574;
+  --danger: #C1666B;
+  --bg: #F8F9FA;
   --card-bg: #FFFFFF;
-  --text: #2F3542;
-  --text-light: #747D8C;
-  --border: #F1F2F6;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --text: #1A1A2E;
+  --text-light: #6C757D;
+  --border: #E9ECEF;
+  --shadow: 0 2px 12px rgba(27, 67, 50, 0.06);
+  --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.1);
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -47,7 +47,7 @@ body {
 
 /* ===== 顶部导航 ===== */
 .header {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5E 50%, #FFC048 100%);
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #40916C 100%);
   color: white;
   padding: 1rem;
   position: relative;
@@ -280,7 +280,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FF6B35, #FF8F5E);
+  background: linear-gradient(90deg, #1B4332, #40916C);
   border-radius: 12px;
   transition: width 0.6s ease;
   display: flex;
@@ -312,7 +312,7 @@ body {
 }
 
 .data-card.highlight {
-  background: linear-gradient(135deg, #FF6B35, #FF4757);
+  background: linear-gradient(135deg, #1B4332, #2D6A4F);
   color: white;
   grid-column: span 2;
 }
