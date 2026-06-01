@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>斑马百科 · 产品营销周报看板</title>
+
+  <!-- Chart.js CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ===== 顶部导航 ===== -->
+  <header class="header">
+    <h1 class="header-title">🦓 斑马百科 · 产品营销周报看板</h1>
+    <div class="header-nav">
+      <!-- 周次切换器 -->
+      <div class="week-switcher">
+        <button id="prevWeek" aria-label="上一周">←</button>
+        <span id="currentWeekLabel">W23</span>
+        <button id="nextWeek" aria-label="下一周">→</button>
+      </div>
+      <!-- 操作按钮 -->
+      <div class="header-actions">
+        <button id="adminLoginBtn">管理者登录</button>
+        <button id="snapshotBtn" class="admin-only" title="生成快照">📸 快照</button>
+        <button id="snapshotListBtn" title="查看快照列表">📋</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 快照提示横幅 -->
+  <div class="snapshot-banner" id="snapshotBanner">
+    <span id="snapshotBannerText"></span>
+    <button id="exitSnapshotBtn">退出快照</button>
+  </div>
+
+  <!-- 周次副标题 -->
+  <div class="week-subtitle" id="weekSubtitle">W23 (6.02-6.08)</div>
+
+  <!-- ===== 主内容区 ===== -->
+  <main class="main-content">
+
+    <!-- 一、OKR完成情况 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">🎯</span>
+        <h2>OKR完成情况</h2>
+      </div>
+      <div class="section-body" id="okrContent">
+        <!-- JS动态渲染 -->
+      </div>
+    </section>
+
+    <!-- 二、数据总览 -->
+    <!-- 2.1 总售卖数据 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">💰</span>
+        <h2>总售卖数据</h2>
+      </div>
+      <div class="section-body">
+        <div class="cards-grid" id="salesOverview">
+          <!-- JS动态渲染 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.2 总下载拉新数据 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">📲</span>
+        <h2>总下载拉新数据</h2>
+      </div>
+      <div class="section-body">
+        <div class="cards-grid" id="downloadData">
+          <!-- JS动态渲染 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.3 站内周数据 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">📊</span>
+        <h2>站内周数据</h2>
+      </div>
+      <div class="section-body">
+        <!-- (1) 销售数据 -->
+        <div class="subsection">
+          <h4>📈 销售数据</h4>
+          <div id="internalSales"></div>
+          <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </div>
+
+        <!-- (2) 商城曝光数据 -->
+        <div class="subsection">
+          <h4>👁️ 商城曝光数据</h4>
+          <div id="exposureData"></div>
+          <div class="chart-container">
+            <canvas id="exposureChart"></canvas>
+          </div>
+        </div>
+
+        <!-- (3) TOP-SKU -->
+        <div class="subsection">
+          <h4>🏆 TOP-SKU</h4>
+          <div id="topSKU"></div>
+        </div>
+
+        <!-- (4) 图书预约数据 -->
+        <div class="subsection">
+          <h4>📚 图书预约数据</h4>
+          <div class="cards-grid" id="bookReservation"></div>
+        </div>
+
+        <!-- 退费率趋势（小图） -->
+        <div class="subsection">
+          <h4>📉 退费率趋势</h4>
+          <div class="chart-container" style="height: 150px;">
+            <canvas id="refundChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.4 站外曝光数据（支持无数据自动隐藏） -->
+    <section class="section" id="externalSection">
+      <div class="section-header">
+        <span class="section-icon">🌐</span>
+        <h2>站外曝光数据</h2>
+      </div>
+      <div class="section-body" id="externalData">
+        <!-- JS动态渲染，无数据时整个section隐藏 -->
+      </div>
+    </section>
+
+    <!-- 三、本周重点 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">⭐</span>
+        <h2>本周重点</h2>
+      </div>
+      <div class="section-body">
+        <div class="editor-wrapper">
+          <div id="weekHighlightsEditor"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四、下周重点 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-icon">📋</span>
+        <h2>下周重点</h2>
+      </div>
+      <div class="section-body">
+        <div class="table-wrapper">
+          <table class="next-week-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>事项</th>
+                <th>可量化交付物</th>
+                <th>完成时间</th>
+                <th class="admin-only">操作</th>
+              </tr>
+            </thead>
+            <tbody id="nextWeekBody">
+              <!-- JS动态渲染 -->
+            </tbody>
+          </table>
+        </div>
+        <button id="addRowBtn" class="admin-only">+ 新增行</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== 登录弹窗 ===== -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+      <div class="modal-title">🔐 管理者登录</div>
+      <input type="password" class="modal-input" id="loginPassword" placeholder="请输入管理密码">
+      <div class="modal-error" id="loginError"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="loginCancel">取消</button>
+        <button class="btn-primary" id="loginSubmit">登录</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 侧边栏（快照列表） ===== -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>📸 快照历史</h3>
+      <button class="sidebar-close" id="closeSidebar">✕</button>
+    </div>
+    <div class="sidebar-body" id="snapshotList">
+      <div class="empty-state">暂无快照</div>
+    </div>
+  </aside>
+
+  <!-- ===== Toast提示 ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== JS依赖 ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+
+  <!-- 应用JS -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
