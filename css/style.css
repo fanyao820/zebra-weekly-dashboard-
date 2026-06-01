@@ -182,9 +182,9 @@ body {
 
 /* ===== 主内容区 ===== */
 .main-content {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 0.75rem;
+  padding: 0 1.5rem;
 }
 
 /* ===== 通用模块样式 ===== */
@@ -807,23 +807,57 @@ body {
   .data-card.highlight {
     grid-column: span 3;
   }
+
+  .data-grid.compact {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 769px) {
+  html {
+    font-size: 15px;
+  }
+
   .cards-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .data-card.highlight {
-    grid-column: span 3;
+    grid-column: span 5;
   }
 
   .data-grid.compact {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .chart-container {
-    height: 250px;
+    height: 320px;
+  }
+
+  .section-body {
+    padding: 1.5rem;
+  }
+
+  .section-header {
+    padding: 1.25rem 1.5rem 0.75rem;
+  }
+
+  .header {
+    padding: 1.25rem 2rem;
+  }
+
+  .header-title {
+    font-size: 1.4rem;
+  }
+
+  .sku-table th,
+  .sku-table td {
+    padding: 0.75rem 1rem;
+  }
+
+  .next-week-table th,
+  .next-week-table td {
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -831,6 +865,30 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 1200px) {
+  .main-content {
+    max-width: 1400px;
+    padding: 0 2rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+
+  .data-card.highlight {
+    grid-column: span 5;
+  }
+
+  .chart-container {
+    height: 360px;
+  }
+
+  .section {
+    margin-top: 1.5rem;
+  }
 }
 
 .section {
