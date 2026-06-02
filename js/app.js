@@ -520,10 +520,13 @@ function renderExposure(data) {
     <div class="data-grid compact">
       <div class="data-item"><span class="label">商城曝光PV</span><span class="value">${formatNumber(data.mallPV)}</span></div>
       <div class="data-item"><span class="label">商城曝光UV</span><span class="value">${formatNumber(data.mallUV)}</span></div>
-      <div class="data-item"><span class="label">商品卡曝光PV</span><span class="value">${formatNumber(data.productCardPV)}</span></div>
-      <div class="data-item"><span class="label">商品卡曝光UV</span><span class="value">${formatNumber(data.productCardUV)}</span></div>
-      <div class="data-item"><span class="label">点击用户</span><span class="value">${formatNumber(data.clickUsers)}</span></div>
-      <div class="data-item"><span class="label">成单率</span><span class="value">${data.orderRate}%</span></div>
+      <div class="data-item"><span class="label">商品曝光PV</span><span class="value">${formatNumber(data.productCardPV)}</span></div>
+      <div class="data-item"><span class="label">商品点击UV</span><span class="value">${formatNumber(data.clickUsers)}</span></div>
+      <div class="data-item"><span class="label">商品点击PV</span><span class="value">${formatNumber(data.clickPV)}</span></div>
+      <div class="data-item"><span class="label">商品点击率</span><span class="value">${data.clickRate}%</span></div>
+      <div class="data-item"><span class="label">Banner点击UV</span><span class="value">${formatNumber(data.bannerClickUV)}</span></div>
+      <div class="data-item"><span class="label">Banner点击率</span><span class="value">${data.bannerClickRate}%</span></div>
+      <div class="data-item"><span class="label">分类栏点击UV</span><span class="value">${formatNumber(data.categoryClickUV)}</span></div>
     </div>
   `;
 }
