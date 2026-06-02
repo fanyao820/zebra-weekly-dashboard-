@@ -87,7 +87,7 @@ const MOCK_DATA = {
       },
       // TOP-SKU（渠道商品数据 W21 本周）
       topSKU: {
-        totalCount: 872,
+        totalCount: 13,
         list: [
           { name: "哺乳动物观察笔记", sales: 507, gmv: 29650.61 },
           { name: "海洋动物观察笔记", sales: 112, gmv: 7445.39 },
@@ -190,7 +190,7 @@ const MOCK_DATA = {
       },
       // TOP-SKU（渠道商品数据 W22 本周）
       topSKU: {
-        totalCount: 549,
+        totalCount: 13,
         list: [
           { name: "哺乳动物观察笔记", sales: 192, gmv: 10976.14 },
           { name: "海洋动物观察笔记", sales: 110, gmv: 7121.91 },

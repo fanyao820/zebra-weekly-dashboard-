@@ -93,29 +93,21 @@
         <!-- 2.3 站内周数据 -->
         <div class="subsection" id="section-internal">
           <h4>📊 站内周数据</h4>
-          <!-- (1) 销售数据 - 左右并排布局 -->
+          <!-- (1) 销售周数据 + TOP-SKU 并排 -->
           <div class="subsection">
-            <h4>📈 销售数据</h4>
             <div class="two-col-layout equal" style="display:flex;gap:1rem;align-items:flex-start;">
               <div class="col-half" style="flex:1;min-width:0;">
+                <h4>📈 销售周数据</h4>
                 <div id="internalSales"></div>
               </div>
               <div class="col-half" style="flex:1;min-width:0;">
-                <div class="chart-container" style="height:220px;margin-top:0;">
-                  <h5>站内销售周趋势</h5>
-                  <canvas id="salesChart"></canvas>
-                </div>
+                <h4>🏆 TOP-SKU</h4>
+                <div id="topSKU"></div>
               </div>
             </div>
           </div>
 
-          <!-- (2) TOP-SKU (moved before 商城曝光) -->
-          <div class="subsection">
-            <h4>🏆 TOP-SKU</h4>
-            <div id="topSKU"></div>
-          </div>
-
-          <!-- (3) 商城曝光数据 -->
+          <!-- (2) 商城曝光数据 -->
           <div class="subsection">
             <h4>👁️ 商城曝光数据</h4>
             <div id="exposureData"></div>

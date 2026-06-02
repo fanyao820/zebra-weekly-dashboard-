@@ -478,7 +478,7 @@ function renderInternalSales(data) {
   const wow = data.wow || {};
 
   container.innerHTML = `
-    <div class="data-grid compact">
+    <div class="data-grid compact" style="grid-template-columns: 1fr;">
       <div class="data-item">
         <span class="label">收入</span>
         <span class="value">¥${formatNumber(data.revenue)}</span>
@@ -488,26 +488,6 @@ function renderInternalSales(data) {
         <span class="label">订单量</span>
         <span class="value">${formatNumber(data.orders)}</span>
         ${wowHtmlItem(wow.orders)}
-      </div>
-      <div class="data-item">
-        <span class="label">订单UV</span>
-        <span class="value">${formatNumber(data.orderUV)}</span>
-        ${wowHtmlItem(wow.orderUV)}
-      </div>
-      <div class="data-item">
-        <span class="label">人均订单量</span>
-        <span class="value">${data.avgOrdersPerUser}</span>
-        ${wowHtmlItem(wow.avgOrdersPerUser)}
-      </div>
-      <div class="data-item">
-        <span class="label">单均价格</span>
-        <span class="value">¥${data.avgPrice}</span>
-        ${wowHtmlItem(wow.avgPrice)}
-      </div>
-      <div class="data-item">
-        <span class="label">退费率</span>
-        <span class="value">${data.refundRate}%</span>
-        ${wowHtmlItem(wow.refundRate)}
       </div>
     </div>
   `;
