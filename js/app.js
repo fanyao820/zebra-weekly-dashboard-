@@ -5,7 +5,7 @@
 
 // ===== 全局状态 =====
 const AppState = {
-  currentWeekIndex: 2, // 默认显示最新周（W23）
+  currentWeekIndex: 1, // 默认显示最新周（W22）
   isAdmin: false,      // 是否管理者模式
   isSnapshot: false,   // 是否在查看快照
   snapshots: [],       // 快照列表
@@ -16,13 +16,15 @@ const AppState = {
 const ADMIN_PASSWORD = "zebra2026";
 
 // ===== 初始化 =====
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // 从 localStorage 加载快照
   loadSnapshots();
   // 初始化周选择器下拉框
   initWeekSelector();
   // 初始化编辑器
   initCustomEditor();
+  // 先加载云端数据
+  await loadCloudData();
   // 渲染当前周数据
   renderWeek();
   // 绑定事件
@@ -280,20 +282,127 @@ function getWeekKey() {
   return AVAILABLE_WEEKS[AppState.currentWeekIndex];
 }
 
-function saveHighlights() {
+// ===== GitHub 云端存储 =====
+const GITHUB_REPO = 'fanyao820/zebra-weekly-dashboard-';
+const GITHUB_FILE = 'data/highlights.json';
+const GITHUB_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${GITHUB_FILE}`;
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+// 加密存储的token（需管理者密码解密）
+const ENC_TOKEN = 'HQ0SLTNgVEhdPSslJQdkRnVMNQETPDVURQFaO1QkIi4DfwBdSjUVMA==';
+
+function decryptToken(password) {
+  const encrypted = atob(ENC_TOKEN);
+  let token = '';
+  for (let i = 0; i < encrypted.length; i++) {
+    token += String.fromCharCode(encrypted.charCodeAt(i) ^ password.charCodeAt(i % password.length));
+  }
+  return token;
+}
+
+// 云端数据缓存
+let cloudHighlightsData = null;
+let cloudFileSha = null;
+
+// 从 GitHub 读取数据（所有人可见）
+async function loadCloudData() {
+  try {
+    const resp = await fetch(GITHUB_RAW_URL + '?t=' + Date.now());
+    if (resp.ok) {
+      cloudHighlightsData = await resp.json();
+      return cloudHighlightsData;
+    }
+  } catch (e) {
+    console.warn('云端数据加载失败，使用本地数据', e);
+  }
+  return null;
+}
+
+// 获取文件 SHA（更新时需要）
+async function getFileSha() {
+  const token = decryptToken(ADMIN_PASSWORD);
+  try {
+    const resp = await fetch(GITHUB_API_URL, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      cloudFileSha = data.sha;
+      return data.sha;
+    }
+  } catch (e) {
+    console.warn('获取SHA失败', e);
+  }
+  return null;
+}
+
+// 保存数据到 GitHub（管理者操作）
+async function saveCloudData(allData) {
+  const token = decryptToken(ADMIN_PASSWORD);
+  const sha = await getFileSha();
+  if (!sha) {
+    showToast('保存失败：无法获取文件信息');
+    return false;
+  }
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(allData, null, 2))));
+  try {
+    const resp = await fetch(GITHUB_API_URL, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `update highlights ${new Date().toLocaleString('zh-CN')}`,
+        content: content,
+        sha: sha
+      })
+    });
+    if (resp.ok) {
+      const result = await resp.json();
+      cloudFileSha = result.content.sha;
+      return true;
+    } else {
+      const err = await resp.json();
+      console.error('GitHub保存失败:', err);
+      showToast('保存失败：' + (err.message || '未知错误'));
+      return false;
+    }
+  } catch (e) {
+    console.error('保存异常:', e);
+    showToast('保存失败：网络错误');
+    return false;
+  }
+}
+
+async function saveHighlights() {
   const weekKey = getWeekKey();
   const editor = document.getElementById('weekHighlightsEditor');
   const content = editor.innerHTML;
+
+  // 同时保存到localStorage（本地备份）和云端
   localStorage.setItem(`weeklyReport_${weekKey}_highlights`, content);
-  showToast('本周重点已保存');
+
+  if (!cloudHighlightsData) cloudHighlightsData = {};
+  if (!cloudHighlightsData[weekKey]) cloudHighlightsData[weekKey] = {};
+  cloudHighlightsData[weekKey].weekHighlights = content;
+
+  showToast('正在保存到云端...');
+  const success = await saveCloudData(cloudHighlightsData);
+  if (success) {
+    showToast('本周重点已保存（所有人可见）');
+  }
 }
 
 function loadHighlights(weekKey) {
-  const saved = localStorage.getItem(`weeklyReport_${weekKey}_highlights`);
-  return saved;
+  // 优先使用云端数据
+  if (cloudHighlightsData && cloudHighlightsData[weekKey] && cloudHighlightsData[weekKey].weekHighlights) {
+    return cloudHighlightsData[weekKey].weekHighlights;
+  }
+  // 降级到localStorage
+  return localStorage.getItem(`weeklyReport_${weekKey}_highlights`);
 }
 
-function saveNextWeek() {
+async function saveNextWeek() {
   const weekKey = getWeekKey();
   const rows = [];
   document.querySelectorAll('#nextWeekBody tr').forEach((tr, idx) => {
@@ -304,11 +413,27 @@ function saveNextWeek() {
       deadline: tr.cells[3].textContent
     });
   });
+
+  // 同时保存到localStorage和云端
   localStorage.setItem(`weeklyReport_${weekKey}_nextweek`, JSON.stringify(rows));
-  showToast('下周重点已保存');
+
+  if (!cloudHighlightsData) cloudHighlightsData = {};
+  if (!cloudHighlightsData[weekKey]) cloudHighlightsData[weekKey] = {};
+  cloudHighlightsData[weekKey].nextWeekPlan = rows;
+
+  showToast('正在保存到云端...');
+  const success = await saveCloudData(cloudHighlightsData);
+  if (success) {
+    showToast('下周重点已保存（所有人可见）');
+  }
 }
 
 function loadNextWeek(weekKey) {
+  // 优先使用云端数据
+  if (cloudHighlightsData && cloudHighlightsData[weekKey] && cloudHighlightsData[weekKey].nextWeekPlan) {
+    return cloudHighlightsData[weekKey].nextWeekPlan;
+  }
+  // 降级到localStorage
   const saved = localStorage.getItem(`weeklyReport_${weekKey}_nextweek`);
   if (saved) {
     try {
