@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>斑马百科 · 产品营销周报看板</title>
 
-  <link rel="stylesheet" href="css/style.css?v=1214">
+  <script>document.write('<link rel="stylesheet" href="css/style.css?v=' + Date.now() + '">');</script>
+
+  <!-- 防缓存 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 </head>
 <body>
   <!-- ===== 顶部导航 ===== -->
@@ -90,12 +95,12 @@
           <!-- (1) 销售数据 - 左右并排布局 -->
           <div class="subsection">
             <h4>📈 销售数据</h4>
-            <div class="two-col-layout">
-              <div class="col-60">
+            <div class="two-col-layout equal">
+              <div class="col-half">
                 <div id="internalSales"></div>
               </div>
-              <div class="col-40">
-                <div class="chart-container" style="height: 240px;">
+              <div class="col-half">
+                <div class="chart-container">
                   <h5>站内销售周趋势</h5>
                   <canvas id="salesChart"></canvas>
                 </div>
@@ -264,8 +269,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <!-- 应用JS -->
-  <script src="js/data.js?v=1214"></script>
-  <script src="js/charts.js?v=1214"></script>
-  <script src="js/app.js?v=1214"></script>
+  <script>
+    // 动态加载JS并禁用缓存
+    var ts = Date.now();
+    var scripts = ['js/data.js', 'js/charts.js', 'js/app.js'];
+    scripts.forEach(function(src) {
+      document.write('<script src="' + src + '?v=' + ts + '"><\/script>');
+    });
+  </script>
 </body>
 </html>
