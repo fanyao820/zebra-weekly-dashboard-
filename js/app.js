@@ -189,6 +189,10 @@ function updateAdminUI() {
   if (dataNotesEditor) {
     dataNotesEditor.contentEditable = AppState.isAdmin && !AppState.isSnapshot ? 'true' : 'false';
   }
+  const dataNotesToolbar = document.getElementById('dataNotesToolbar');
+  if (dataNotesToolbar) {
+    dataNotesToolbar.style.display = AppState.isAdmin && !AppState.isSnapshot ? 'block' : 'none';
+  }
   // 更新下周重点表格可编辑状态
   updateNextWeekTableEditable();
   // 更新OKR可编辑状态

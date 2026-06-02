@@ -93,7 +93,14 @@
         <!-- 数据分析备注编辑框 -->
         <div class="subsection" id="section-data-notes">
           <div class="editor-container" style="margin-top:0.5rem;">
-            <div id="dataNotesEditor" class="editor-area" contenteditable="false" style="min-height:60px;padding:0.8rem;border:1px solid #e8e8e8;border-radius:6px;font-size:0.85rem;line-height:1.6;border-left:3px solid #1E5FC2;">
+            <div class="editor-toolbar admin-only" id="dataNotesToolbar" style="margin-bottom:0.3rem;display:none;">
+              <button type="button" onclick="document.execCommand('bold')" title="加粗"><b>B</b></button>
+              <button type="button" onclick="document.execCommand('foreColor',false,'#e74c3c')" title="红色">🔴</button>
+              <button type="button" onclick="document.execCommand('foreColor',false,'#27ae60')" title="绿色">🟢</button>
+              <button type="button" onclick="document.execCommand('foreColor',false,'#1E5FC2')" title="蓝色">🔵</button>
+              <button type="button" onclick="document.execCommand('foreColor',false,'#333')" title="黑色">⚫</button>
+            </div>
+            <div id="dataNotesEditor" class="editor-area" contenteditable="false" style="min-height:40px;padding:0.6rem 0.8rem;border-left:3px solid #1E5FC2;background:#f8fafd;border-radius:4px;font-size:0.82rem;line-height:1.8;">
               <p>数据分析待填写</p>
             </div>
             <div class="editor-footer admin-only" style="display:flex;justify-content:space-between;align-items:center;margin-top:0.3rem;">
