@@ -106,13 +106,14 @@ const MOCK_DATA = {
       avgOrdersPerUser: 1.26,
       avgPrice: 82.52,
       refundRate: 8.4,
+      // 环比 = (W22累计 - W21累计) / W21累计
       wow: {
-        totalRevenue: -10.5,
-        totalOrders: -10.7,
-        totalOrderUV: -10.4,
-        avgOrdersPerUser: -0.4,
-        avgPrice: 0.2,
-        refundRate: 133.0
+        totalRevenue: 2.6,
+        totalOrders: 3.0,
+        totalOrderUV: 3.4,
+        avgOrdersPerUser: -0.8,
+        avgPrice: -0.4,
+        refundRate: 6.3
       }
     },
     // 总下载拉新数据（累计截至0309-0524，天文&哺乳动物合计）
@@ -124,12 +125,12 @@ const MOCK_DATA = {
       totalGMV: 10927.42,        // 转化百科GMV
       avgPrice: 295.34,          // 人均GMV
       wow: {
-        redeemNewUsers: 3.1,    // (2301 vs 2231)
-        redeemRate: -22.5,      // (21.5 vs 27.8)
-        newUsers: 8.3,          // (249 vs 230)
-        conversionRate: 0.7,    // (14.9 vs 14.8)
-        totalGMV: 1.5,          // (10927.42 vs 10762.02)
-        avgPrice: -6.7          // (295.34 vs 316.53)
+        redeemNewUsers: 3.1,
+        redeemRate: -22.7,
+        newUsers: 8.3,
+        conversionRate: 0.7,
+        totalGMV: 1.5,
+        avgPrice: -6.7
       }
     },
     // 站内周数据
