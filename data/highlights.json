@@ -24,6 +24,18 @@
         "task": "素人帖子发布",
         "deliverable": "至少发布20篇素人帖子",
         "deadline": "6月5号"
+      },
+      {
+        "id": 3,
+        "task": "周五新品上新",
+        "deliverable": "本周四完成",
+        "deadline": "6月4日"
+      },
+      {
+        "id": 4,
+        "task": "哺乳动物图书宣传片",
+        "deliverable": "一条35秒视频",
+        "deadline": "6月11日"
       }
     ]
   }
