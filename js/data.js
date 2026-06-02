@@ -72,18 +72,15 @@ const MOCK_DATA = {
       },
       // 商城曝光数据（AI商城 0518-0524 周数据）
       exposure: {
-        mallPV: 16368,
-        mallUV: 13112,
-        productCardPV: 293727,
-        productCardUV: null,
-        clickUsers: 4405,
-        clickPV: 11033,
-        clickRate: 33.6,
-        bannerClickUV: 421,
-        bannerClickPV: 506,
-        bannerClickRate: 3.2,
-        categoryClickUV: 1798,
-        orderRate: null
+        // 总数据（橘色）
+        total: { uv: 13112, pv: 16368, avgVisit: 1.2, productPV: 293727, clickUV: 4405, clickPV: 11033, clickRate: 33.6, bannerClickUV: 421, bannerClickRate: 3.2, categoryClickUV: 1798 },
+        // 分入口（蓝色）
+        entries: [
+          { name: "家长中心btn", uv: 3051, pv: 3783, avgVisit: 1.2 },
+          { name: "家长中心", uv: 3218, pv: 3791, avgVisit: 1.2 },
+          { name: "会员管理页", uv: 397, pv: 454, avgVisit: 1.1 },
+          { name: "购买成功页", uv: 95, pv: 102, avgVisit: 1.1 }
+        ]
       },
       // TOP-SKU（渠道商品数据 W21 本周）
       topSKU: {
@@ -175,18 +172,15 @@ const MOCK_DATA = {
       },
       // 商城曝光数据（AI商城 0525-0531 周数据）
       exposure: {
-        mallPV: 27757,
-        mallUV: 22551,
-        productCardPV: 403019,
-        productCardUV: null,
-        clickUsers: 6261,
-        clickPV: 15435,
-        clickRate: 28.3,
-        bannerClickUV: 767,
-        bannerClickPV: 843,
-        bannerClickRate: 3.4,
-        categoryClickUV: 2270,
-        orderRate: null
+        // 总数据（橘色）
+        total: { uv: 22551, pv: 27757, avgVisit: 1.2, productPV: 403019, clickUV: 6261, clickPV: 15435, clickRate: 28.3, bannerClickUV: 767, bannerClickRate: 3.4, categoryClickUV: 2270 },
+        // 分入口（蓝色）
+        entries: [
+          { name: "家长中心btn", uv: 2968, pv: 3617, avgVisit: 1.2 },
+          { name: "家长中心", uv: 2634, pv: 3058, avgVisit: 1.2 },
+          { name: "会员管理页", uv: 360, pv: 412, avgVisit: 1.1 },
+          { name: "购买成功页", uv: 94, pv: 100, avgVisit: 1.1 }
+        ]
       },
       // TOP-SKU（渠道商品数据 W22 本周）
       topSKU: {

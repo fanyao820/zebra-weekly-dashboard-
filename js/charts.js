@@ -126,7 +126,7 @@ function renderExposureChart(currentWeekIndex) {
   const labels = TREND_DATA.weeks.slice(startIdx, endIdx);
   const pvData = TREND_DATA.mallPV.slice(startIdx, endIdx);
   const uvData = TREND_DATA.mallUV.slice(startIdx, endIdx);
-  const orderRateData = TREND_DATA.orderRate.slice(startIdx, endIdx);
+  const clickRateData = TREND_DATA.orderRate.slice(startIdx, endIdx);
 
   chartInstances.exposure = new Chart(ctx, {
     type: 'line',
@@ -135,26 +135,39 @@ function renderExposureChart(currentWeekIndex) {
       datasets: [
         {
           label: '商城PV(万)',
-          data: pvData.map(v => (v / 10000).toFixed(1)),
-          borderColor: '#1E5FC2',
-          backgroundColor: 'rgba(30, 95, 194, 0.1)',
-          fill: true,
+          data: pvData.map(v => v ? (v / 10000).toFixed(2) : null),
+          borderColor: '#E67E22',
+          backgroundColor: 'rgba(230, 126, 34, 0.05)',
+          fill: false,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#E67E22',
+          tension: 0.3,
           yAxisID: 'y'
         },
         {
           label: '商城UV(万)',
-          data: uvData.map(v => (v / 10000).toFixed(1)),
-          borderColor: '#4A90D9',
-          backgroundColor: 'rgba(74, 144, 217, 0.1)',
-          fill: false,
+          data: uvData.map(v => v ? (v / 10000).toFixed(2) : null),
+          borderColor: '#1E5FC2',
+          backgroundColor: 'rgba(30, 95, 194, 0.08)',
+          fill: true,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#1E5FC2',
+          tension: 0.3,
           yAxisID: 'y'
         },
         {
-          label: '成单率(%)',
-          data: orderRateData,
-          borderColor: '#48bb78',
-          backgroundColor: 'rgba(72, 187, 120, 0.1)',
+          label: '商品点击率(%)',
+          data: clickRateData,
+          borderColor: '#27ae60',
+          backgroundColor: 'rgba(39, 174, 96, 0.05)',
           fill: false,
+          borderWidth: 2,
+          borderDash: [],
+          pointRadius: 4,
+          pointBackgroundColor: '#27ae60',
+          tension: 0.3,
           yAxisID: 'y1'
         }
       ]
@@ -172,7 +185,7 @@ function renderExposureChart(currentWeekIndex) {
           position: 'right',
           beginAtZero: true,
           grid: { drawOnChartArea: false },
-          title: { display: true, text: '成单率(%)', font: { size: 10 } },
+          title: { display: true, text: '点击率(%)', font: { size: 10 } },
           ticks: { font: { size: 10 } }
         }
       }
