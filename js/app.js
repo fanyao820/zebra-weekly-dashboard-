@@ -467,6 +467,7 @@ function renderWeek() {
   renderExternalData(data.externalData);
   renderWeekHighlights(data.weekHighlights, weekKey);
   renderNextWeekPlan(data.nextWeekPlan, weekKey);
+  renderDataNotes(weekKey);
 
   // 更新图表
   updateAllCharts(AppState.currentWeekIndex);
@@ -993,4 +994,42 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ===== 数据分析备注 =====
+function renderDataNotes(weekKey) {
+  const editor = document.getElementById('dataNotesEditor');
+  if (!editor) return;
+  // 优先从云端加载
+  let content = null;
+  if (cloudHighlightsData && cloudHighlightsData[weekKey] && cloudHighlightsData[weekKey].dataNotes) {
+    content = cloudHighlightsData[weekKey].dataNotes;
+  }
+  if (!content) {
+    content = localStorage.getItem(`weeklyReport_${weekKey}_dataNotes`);
+  }
+  if (content) {
+    editor.innerHTML = content;
+  } else {
+    editor.innerHTML = '<p>数据分析待填写</p>';
+  }
+  editor.contentEditable = AppState.isAdmin && !AppState.isSnapshot ? 'true' : 'false';
+}
+
+async function saveDataNotes() {
+  const weekKey = getWeekKey();
+  const editor = document.getElementById('dataNotesEditor');
+  const content = editor.innerHTML;
+
+  localStorage.setItem(`weeklyReport_${weekKey}_dataNotes`, content);
+
+  if (!cloudHighlightsData) cloudHighlightsData = {};
+  if (!cloudHighlightsData[weekKey]) cloudHighlightsData[weekKey] = {};
+  cloudHighlightsData[weekKey].dataNotes = content;
+
+  showToast('正在保存到云端...');
+  const success = await saveCloudData(cloudHighlightsData);
+  if (success) {
+    showToast('数据分析已保存（所有人可见）');
+  }
 }
