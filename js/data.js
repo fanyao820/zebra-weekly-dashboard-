@@ -19,37 +19,20 @@ const MOCK_DATA = {
     // 注：W21累计 = W22累计 - W22本周增量
     salesOverview: {
       totalRevenue: 2718265.66,  // (2448542.83-39680.57) + (327958.77-18555.37)
-      revenueChange: null,
       totalOrders: 32813,  // (29283-549) + (4323-244)
       totalOrderUV: 25900, // (22623-505) + (4000-218)
       avgOrdersPerUser: 1.27,
       avgPrice: 82.83,
-      refundRate: 7.9,
-      wow: {
-        totalRevenue: null,
-        totalOrders: null,
-        totalOrderUV: null,
-        avgOrdersPerUser: null,
-        avgPrice: null,
-        refundRate: null
-      }
+      refundRate: 7.9
     },
-    // 总下载拉新数据（累计截至0309-0517）
+    // 总下载拉新数据（累计截至0309-0517，天文单独）
     downloadData: {
       redeemNewUsers: 2231,      // 已兑换UV
-      redeemRate: 27.8,          // 兑换率
+      redeemRate: 27.8,          // 兑换率（天文单独 2231/8037）
       newUsers: 230,             // 下载拉新兑换UV
       conversionRate: 14.8,      // 兑换率转化率
       totalGMV: 10762.02,        // 转化百科GMV
       avgPrice: 316.53,          // 人均GMV
-      wow: {
-        redeemNewUsers: null,
-        redeemRate: null,
-        newUsers: null,
-        conversionRate: null,
-        totalGMV: null,
-        avgPrice: null
-      }
     },
     // 站内周数据
     internalData: {
@@ -118,38 +101,20 @@ const MOCK_DATA = {
     // 总售卖数据（累计，站内+站外）
     salesOverview: {
       totalRevenue: 2776501.60,  // 2448542.83 + 327958.77
-      revenueChange: -26.2,       // 本周增量vs上周增量
       totalOrders: 33606,         // 29283 + 4323
       totalOrderUV: 26623,        // 22623 + 4000
       avgOrdersPerUser: 1.26,
       avgPrice: 82.62,
-      refundRate: 8.0,
-      // 环比 = (本周新增 vs 上周新增)
-      wow: {
-        totalRevenue: -26.2,   // (58235.94 vs 78950.90)
-        totalOrders: -28.0,    // (793 vs 1101)
-        totalOrderUV: -27.1,   // (723 vs 992)
-        avgOrdersPerUser: -1.3,
-        avgPrice: 2.4,
-        refundRate: -14.7
-      }
+      refundRate: 8.0
     },
     // 总下载拉新数据（累计截至0309-0524，天文&哺乳动物合计）
     downloadData: {
       redeemNewUsers: 2301,      // 已兑换UV（天文+哺乳合计）
-      redeemRate: 27.2,          // 兑换率
+      redeemRate: 21.5,          // 兑换率 = 2301/10694
       newUsers: 249,             // 下载拉新兑换UV
       conversionRate: 14.9,      // 兑换率转化率
       totalGMV: 10927.42,        // 转化百科GMV
       avgPrice: 295.34,          // 人均GMV
-      wow: {
-        redeemNewUsers: 3.1,    // (2301 vs 2231)
-        redeemRate: -2.2,       // (27.2 vs 27.8)
-        newUsers: 8.3,          // (249 vs 230)
-        conversionRate: 0.7,    // (14.9 vs 14.8)
-        totalGMV: 1.5,          // (10927.42 vs 10762.02)
-        avgPrice: -6.7          // (295.34 vs 316.53)
-      }
     },
     // 站内周数据
     internalData: {
