@@ -619,43 +619,19 @@ function renderExposure(data) {
   const t = data.total;
   const entries = data.entries || [];
   container.innerHTML = `
-    <!-- 总数据卡片（橘色数值） -->
-    <div class="data-grid compact" style="margin-bottom:1.5rem;">
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">商城曝光UV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.uv)}</span>
-      </div>
+    <!-- 总数据卡片（橘色，一行三个） -->
+    <div class="data-grid compact" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:1.5rem;">
       <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商城曝光PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.pv)}</span>
       </div>
       <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">商品曝光PV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.productPV)}</span>
+        <span class="label">商城曝光UV</span>
+        <span class="value" style="color:#E67E22;">${formatNumber(t.uv)}</span>
       </div>
       <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">商品点击UV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.clickUV)}</span>
-      </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">商品点击PV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.clickPV)}</span>
-      </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">商品点击率</span>
-        <span class="value" style="color:#E67E22;">${t.clickRate}%</span>
-      </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">Banner点击UV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.bannerClickUV)}</span>
-      </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">Banner点击率</span>
-        <span class="value" style="color:#E67E22;">${t.bannerClickRate}%</span>
-      </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
-        <span class="label">分类栏点击UV</span>
-        <span class="value" style="color:#E67E22;">${formatNumber(t.categoryClickUV)}</span>
+        <span class="label">人均访问次数</span>
+        <span class="value" style="color:#E67E22;">${t.avgVisit}</span>
       </div>
     </div>
     <!-- 分入口数据（蓝色，两行两列卡片） -->
