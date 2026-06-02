@@ -18,9 +18,9 @@ const MOCK_DATA = {
     // 总售卖数据（累计，站内+站外）
     // 注：W21累计 = W22累计 - W22本周增量
     salesOverview: {
-      totalRevenue: 2718265.66,  // (2448542.83-39680.57) + (327958.77-18555.37)
-      totalOrders: 32813,  // (29283-549) + (4323-244)
-      totalOrderUV: 25900, // (22623-505) + (4000-218)
+      totalRevenue: 2718265.66,  // (2448542.83-39680.57) + (340360.02-30956.62)
+      totalOrders: 32813,  // (29283-549) + (4513-434)
+      totalOrderUV: 25900, // (22623-505) + (4166-384)
       avgOrdersPerUser: 1.27,
       avgPrice: 82.83,
       refundRate: 7.9
@@ -100,12 +100,20 @@ const MOCK_DATA = {
     ],
     // 总售卖数据（累计，站内+站外）
     salesOverview: {
-      totalRevenue: 2776501.60,  // 2448542.83 + 327958.77
-      totalOrders: 33606,         // 29283 + 4323
-      totalOrderUV: 26623,        // 22623 + 4000
+      totalRevenue: 2788902.85,  // 2448542.83 + 340360.02
+      totalOrders: 33796,         // 29283 + 4513
+      totalOrderUV: 26789,        // 22623 + 4166
       avgOrdersPerUser: 1.26,
-      avgPrice: 82.62,
-      refundRate: 8.0
+      avgPrice: 82.52,
+      refundRate: 8.4,
+      wow: {
+        totalRevenue: -10.5,
+        totalOrders: -10.7,
+        totalOrderUV: -10.4,
+        avgOrdersPerUser: -0.4,
+        avgPrice: 0.2,
+        refundRate: 133.0
+      }
     },
     // 总下载拉新数据（累计截至0309-0524，天文&哺乳动物合计）
     downloadData: {
@@ -115,6 +123,14 @@ const MOCK_DATA = {
       conversionRate: 14.9,      // 兑换率转化率
       totalGMV: 10927.42,        // 转化百科GMV
       avgPrice: 295.34,          // 人均GMV
+      wow: {
+        redeemNewUsers: 3.1,    // (2301 vs 2231)
+        redeemRate: -22.5,      // (21.5 vs 27.8)
+        newUsers: 8.3,          // (249 vs 230)
+        conversionRate: 0.7,    // (14.9 vs 14.8)
+        totalGMV: 1.5,          // (10927.42 vs 10762.02)
+        avgPrice: -6.7          // (295.34 vs 316.53)
+      }
     },
     // 站内周数据
     internalData: {

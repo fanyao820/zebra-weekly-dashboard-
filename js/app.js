@@ -531,31 +531,38 @@ function wowHtmlInline(val) {
 // 渲染总售卖数据 (2行3列 + 环比)
 function renderSalesOverview(data) {
   const container = document.getElementById('salesOverview');
+  const wow = data.wow || {};
 
   container.innerHTML = `
     <div class="data-card">
       <div class="card-label">收入</div>
       <div class="card-value">¥${formatNumber(data.totalRevenue)}</div>
+      ${wowHtml(wow.totalRevenue)}
     </div>
     <div class="data-card">
       <div class="card-label">总订单量</div>
       <div class="card-value">${formatNumber(data.totalOrders)}</div>
+      ${wowHtml(wow.totalOrders)}
     </div>
     <div class="data-card">
       <div class="card-label">总订单UV</div>
       <div class="card-value">${formatNumber(data.totalOrderUV)}</div>
+      ${wowHtml(wow.totalOrderUV)}
     </div>
     <div class="data-card">
       <div class="card-label">人均订单量</div>
       <div class="card-value">${data.avgOrdersPerUser}</div>
+      ${wowHtml(wow.avgOrdersPerUser)}
     </div>
     <div class="data-card">
       <div class="card-label">单均价格</div>
       <div class="card-value">¥${data.avgPrice}</div>
+      ${wowHtml(wow.avgPrice)}
     </div>
     <div class="data-card">
       <div class="card-label">总退费率</div>
       <div class="card-value">${data.refundRate}%</div>
+      ${wowHtml(wow.refundRate)}
     </div>
   `;
 }
@@ -563,31 +570,38 @@ function renderSalesOverview(data) {
 // 渲染下载拉新数据 (2行3列 + 环比)
 function renderDownloadData(data) {
   const container = document.getElementById('downloadData');
+  const wow = data.wow || {};
 
   container.innerHTML = `
     <div class="data-card">
       <div class="card-label">兑换新用户</div>
       <div class="card-value">${formatNumber(data.redeemNewUsers)}</div>
+      ${wowHtml(wow.redeemNewUsers)}
     </div>
     <div class="data-card">
       <div class="card-label">兑换率</div>
       <div class="card-value">${data.redeemRate}%</div>
+      ${wowHtml(wow.redeemRate)}
     </div>
     <div class="data-card">
       <div class="card-label">拉新用户</div>
       <div class="card-value">${formatNumber(data.newUsers)}</div>
+      ${wowHtml(wow.newUsers)}
     </div>
     <div class="data-card">
       <div class="card-label">转化率</div>
       <div class="card-value">${data.conversionRate}%</div>
+      ${wowHtml(wow.conversionRate)}
     </div>
     <div class="data-card">
       <div class="card-label">转化总GMV</div>
       <div class="card-value">¥${formatNumber(data.totalGMV)}</div>
+      ${wowHtml(wow.totalGMV)}
     </div>
     <div class="data-card">
       <div class="card-label">客单价</div>
       <div class="card-value">¥${data.avgPrice}</div>
+      ${wowHtml(wow.avgPrice)}
     </div>
   `;
 }
