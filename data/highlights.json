@@ -16,7 +16,13 @@
       {
         "id": 1,
         "task": "koc种草继续找达人",
-        "deliverable": "至少合作11位达人",
+        "deliverable": "至少再确认合作11位达人",
+        "deadline": "6月5号"
+      },
+      {
+        "id": 2,
+        "task": "素人帖子发布",
+        "deliverable": "至少发布20篇素人帖子",
         "deadline": "6月5号"
       }
     ]
