@@ -257,21 +257,16 @@ body {
 .two-col-layout > .col-half {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
 }
 
-.two-col-layout > .col-half > .chart-container {
-  flex: 1;
-  height: auto;
-  min-height: 200px;
+.two-col-layout.equal > .col-half > .chart-container {
+  height: 100%;
   margin-top: 0;
+  box-sizing: border-box;
 }
 
-.two-col-layout > .col-half > .chart-container canvas {
+.two-col-layout.equal > .col-half > .chart-container canvas {
   max-height: none;
-  width: 100% !important;
-  height: 100% !important;
 }
 
 .two-col-layout > .col-60 {
@@ -282,20 +277,15 @@ body {
 .two-col-layout > .col-40 {
   flex: 0 0 40%;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .two-col-layout > .col-40 .chart-container {
-  flex: 1;
-  height: auto;
-  min-height: 200px;
+  height: 100%;
   margin-top: 0;
 }
 
 .two-col-layout > .col-40 .chart-container canvas {
   max-height: none;
-  height: 100% !important;
 }
 
 /* ===== OKR模块 ===== */
