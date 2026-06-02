@@ -1253,3 +1253,19 @@ body {
 #weekHighlightsEditor table tbody tr:nth-child(even) {
   background: #fafbfd;
 }
+
+/* 强制覆盖编辑器内表格的行内样式 */
+#dataNotesEditor table,
+#dataNotesEditor table *,
+#weekHighlightsEditor table,
+#weekHighlightsEditor table * {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #333 !important;
+}
+
+#dataNotesEditor table th,
+#weekHighlightsEditor table th {
+  background: #f1f5f9 !important;
+  color: #1E5FC2 !important;
+}
