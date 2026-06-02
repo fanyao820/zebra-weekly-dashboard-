@@ -111,9 +111,9 @@ const MOCK_DATA = {
         totalRevenue: 2.6,
         totalOrders: 3.0,
         totalOrderUV: 3.4,
-        avgOrdersPerUser: -0.8,
+        avgOrdersPerUser: -0.4,
         avgPrice: -0.4,
-        refundRate: 6.3
+        refundRate: 5.7
       }
     },
     // 总下载拉新数据（累计截至0309-0524，天文&哺乳动物合计）
