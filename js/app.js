@@ -394,6 +394,15 @@ function wowHtmlItem(val) {
   return `<span class="change ${cls}">${icon}${Math.abs(val).toFixed(1)}%</span>`;
 }
 
+// 行内环比（用于表格单元格）
+function wowHtmlInline(val) {
+  if (val === null || val === undefined) return '';
+  const isPositive = val >= 0;
+  const color = isPositive ? '#27ae60' : '#e74c3c';
+  const icon = isPositive ? '▲' : '▼';
+  return `<span style="font-size:0.75rem;color:${color};margin-left:4px;">${icon}${Math.abs(val).toFixed(1)}%</span>`;
+}
+
 // 渲染总售卖数据 (2行3列 + 环比)
 function renderSalesOverview(data) {
   const container = document.getElementById('salesOverview');
@@ -533,8 +542,8 @@ function renderTopSKU(data) {
             <tr>
               <td>${idx + 1}</td>
               <td>${item.name}</td>
-              <td>${formatNumber(item.sales)}</td>
-              <td>¥${formatNumber(item.gmv)}</td>
+              <td>${formatNumber(item.sales)} ${wowHtmlInline(item.wowSales)}</td>
+              <td>¥${formatNumber(item.gmv)} ${wowHtmlInline(item.wowGmv)}</td>
             </tr>
           `).join('')}
         </tbody>

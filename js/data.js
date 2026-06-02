@@ -89,9 +89,9 @@ const MOCK_DATA = {
       topSKU: {
         totalCount: 43,
         list: [
-          { name: "哺乳动物观察笔记", sales: 507, gmv: 29650.61 },
-          { name: "海洋动物观察笔记", sales: 112, gmv: 7445.39 },
-          { name: "天文观察笔记", sales: 101, gmv: 7637 }
+          { name: "哺乳动物观察笔记", sales: 507, gmv: 29650.61, wowSales: null, wowGmv: null },
+          { name: "海洋动物观察笔记", sales: 112, gmv: 7445.39, wowSales: null, wowGmv: null },
+          { name: "天文观察笔记", sales: 101, gmv: 7637, wowSales: null, wowGmv: null }
         ]
       },
       // 图书预约数据（暂无源数据）
@@ -192,9 +192,9 @@ const MOCK_DATA = {
       topSKU: {
         totalCount: 43,
         list: [
-          { name: "哺乳动物观察笔记", sales: 192, gmv: 10976.14 },
-          { name: "海洋动物观察笔记", sales: 110, gmv: 7121.91 },
-          { name: "天文观察笔记", sales: 105, gmv: 7861 }
+          { name: "哺乳动物观察笔记", sales: 192, gmv: 10976.14, wowSales: -62.1, wowGmv: -63.0 },
+          { name: "海洋动物观察笔记", sales: 110, gmv: 7121.91, wowSales: -1.8, wowGmv: -4.3 },
+          { name: "天文观察笔记", sales: 105, gmv: 7861, wowSales: 4.0, wowGmv: 2.9 }
         ]
       },
       // 图书预约数据（暂无源数据）
