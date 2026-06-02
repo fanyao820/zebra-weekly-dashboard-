@@ -1,6 +1,7 @@
 /**
  * data.js - Mock数据层
  * 包含2-3周的模拟数据，其中W21的站外数据为空（用于测试自动隐藏功能）
+ * 每个指标增加环比字段（wow = week-over-week）
  */
 
 const MOCK_DATA = {
@@ -17,12 +18,21 @@ const MOCK_DATA = {
     // 2.1 总售卖数据
     salesOverview: {
       totalRevenue: 1250000,
-      revenueChange: 12.5, // 环比变化百分比
+      revenueChange: 12.5,
       totalOrders: 3200,
       totalOrderUV: 2800,
       avgOrdersPerUser: 1.14,
       avgPrice: 390.6,
-      refundRate: 3.2
+      refundRate: 3.2,
+      // 环比（W21无上一周数据，设为null或自定义）
+      wow: {
+        totalRevenue: 12.5,
+        totalOrders: 8.2,
+        totalOrderUV: 7.5,
+        avgOrdersPerUser: 1.8,
+        avgPrice: 2.1,
+        refundRate: -5.9
+      }
     },
     // 2.2 总下载拉新数据
     downloadData: {
@@ -31,7 +41,15 @@ const MOCK_DATA = {
       newUsers: 2200,
       conversionRate: 12.8,
       totalGMV: 680000,
-      avgPrice: 309.1
+      avgPrice: 309.1,
+      wow: {
+        redeemNewUsers: 10.3,
+        redeemRate: 3.5,
+        newUsers: 15.2,
+        conversionRate: 2.4,
+        totalGMV: 12.1,
+        avgPrice: -1.2
+      }
     },
     // 2.3 站内周数据
     internalData: {
@@ -42,7 +60,15 @@ const MOCK_DATA = {
         orderUV: 2200,
         avgOrdersPerUser: 1.14,
         avgPrice: 392,
-        refundRate: 2.8
+        refundRate: 2.8,
+        wow: {
+          revenue: 10.2,
+          orders: 7.8,
+          orderUV: 6.5,
+          avgOrdersPerUser: 1.5,
+          avgPrice: 2.0,
+          refundRate: -6.7
+        }
       },
       // (2) 商城曝光数据
       exposure: {
@@ -74,20 +100,8 @@ const MOCK_DATA = {
     },
     // 2.4 站外曝光数据 —— W21为空，测试自动隐藏
     externalData: null,
-    // 三、本周重点（Quill Delta格式）
-    weekHighlights: {
-      ops: [
-        { insert: "本周重点工作总结", attributes: { header: 2 } },
-        { insert: "\n" },
-        { insert: "1. 完成了恐龙世界系列的新一轮营销推广", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "覆盖微信公众号、小红书、抖音三大平台，总曝光超过200万次\n" },
-        { insert: "2. 优化了商城首页推荐算法", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "点击率提升15%，转化率提升8%\n" },
-        { insert: "3. 启动暑期促销活动策划\n" }
-      ]
-    },
+    // 三、本周重点（HTML格式）
+    weekHighlights: "<h2>本周重点工作总结</h2><p><b>1. 完成了恐龙世界系列的新一轮营销推广</b></p><p>覆盖微信公众号、小红书、抖音三大平台，总曝光超过200万次</p><p><b>2. 优化了商城首页推荐算法</b></p><p>点击率提升15%，转化率提升8%</p><p><b>3. 启动暑期促销活动策划</b></p>",
     // 四、下周重点
     nextWeekPlan: [
       { id: 1, task: "暑期活动页面设计定稿", deliverable: "活动页H5完稿", deadline: "5.28" },
@@ -112,7 +126,15 @@ const MOCK_DATA = {
       totalOrderUV: 3100,
       avgOrdersPerUser: 1.16,
       avgPrice: 394.4,
-      refundRate: 2.9
+      refundRate: 2.9,
+      wow: {
+        totalRevenue: 13.6,
+        totalOrders: 12.5,
+        totalOrderUV: 10.7,
+        avgOrdersPerUser: 1.8,
+        avgPrice: 1.0,
+        refundRate: -9.4
+      }
     },
     downloadData: {
       redeemNewUsers: 1800,
@@ -120,7 +142,15 @@ const MOCK_DATA = {
       newUsers: 2600,
       conversionRate: 14.2,
       totalGMV: 820000,
-      avgPrice: 315.4
+      avgPrice: 315.4,
+      wow: {
+        redeemNewUsers: 20.0,
+        redeemRate: 7.3,
+        newUsers: 18.2,
+        conversionRate: 10.9,
+        totalGMV: 20.6,
+        avgPrice: 2.0
+      }
     },
     internalData: {
       sales: {
@@ -129,7 +159,15 @@ const MOCK_DATA = {
         orderUV: 2450,
         avgOrdersPerUser: 1.16,
         avgPrice: 392.9,
-        refundRate: 2.5
+        refundRate: 2.5,
+        wow: {
+          revenue: 14.3,
+          orders: 14.0,
+          orderUV: 11.4,
+          avgOrdersPerUser: 1.8,
+          avgPrice: 0.2,
+          refundRate: -10.7
+        }
       },
       exposure: {
         mallPV: 142000,
@@ -169,24 +207,7 @@ const MOCK_DATA = {
         { media: "教育观察", title: "交互式百科全书的创新", reach: 180000 }
       ]
     },
-    weekHighlights: {
-      ops: [
-        { insert: "本周重点工作总结", attributes: { header: 2 } },
-        { insert: "\n" },
-        { insert: "1. 暑期活动页面设计完成", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "已通过UI评审，进入开发阶段\n" },
-        { insert: "2. KOL合作签约完成", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "成功签约5位头部母婴KOL，预计6月中旬开始投放\n" },
-        { insert: "3. 新品「植物王国」完成内容审核", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "计划6月第一周正式上架\n" },
-        { insert: "4. 站外种草效果显著", attributes: { color: "#e74c3c" } },
-        { insert: "\n" },
-        { insert: "小红书+抖音累计曝光超180万，转化率超预期\n" }
-      ]
-    },
+    weekHighlights: "<h2>本周重点工作总结</h2><p><b>1. 暑期活动页面设计完成</b></p><p>已通过UI评审，进入开发阶段</p><p><b>2. KOL合作签约完成</b></p><p>成功签约5位头部母婴KOL，预计6月中旬开始投放</p><p><b>3. 新品「植物王国」完成内容审核</b></p><p>计划6月第一周正式上架</p><p><b style=\"color:#e74c3c\">4. 站外种草效果显著</b></p><p>小红书+抖音累计曝光超180万，转化率超预期</p>",
     nextWeekPlan: [
       { id: 1, task: "暑期活动H5开发联调", deliverable: "H5页面上线", deadline: "6.03" },
       { id: 2, task: "植物王国正式上架", deliverable: "SKU上架+首页推荐位", deadline: "6.02" },
@@ -211,7 +232,15 @@ const MOCK_DATA = {
       totalOrderUV: 3400,
       avgOrdersPerUser: 1.18,
       avgPrice: 395,
-      refundRate: 2.6
+      refundRate: 2.6,
+      wow: {
+        totalRevenue: 11.3,
+        totalOrders: 11.1,
+        totalOrderUV: 9.7,
+        avgOrdersPerUser: 1.7,
+        avgPrice: 0.2,
+        refundRate: -10.3
+      }
     },
     downloadData: {
       redeemNewUsers: 2100,
@@ -219,7 +248,15 @@ const MOCK_DATA = {
       newUsers: 3000,
       conversionRate: 15.8,
       totalGMV: 950000,
-      avgPrice: 316.7
+      avgPrice: 316.7,
+      wow: {
+        redeemNewUsers: 16.7,
+        redeemRate: 7.8,
+        newUsers: 15.4,
+        conversionRate: 11.3,
+        totalGMV: 15.9,
+        avgPrice: 0.4
+      }
     },
     internalData: {
       sales: {
@@ -228,7 +265,15 @@ const MOCK_DATA = {
         orderUV: 2750,
         avgOrdersPerUser: 1.16,
         avgPrice: 400,
-        refundRate: 2.3
+        refundRate: 2.3,
+        wow: {
+          revenue: 14.3,
+          orders: 12.3,
+          orderUV: 12.2,
+          avgOrdersPerUser: 0.0,
+          avgPrice: 1.8,
+          refundRate: -8.0
+        }
       },
       exposure: {
         mallPV: 168000,
@@ -269,26 +314,7 @@ const MOCK_DATA = {
         { media: "腾讯教育", title: "暑期学习好帮手推荐", reach: 380000 }
       ]
     },
-    weekHighlights: {
-      ops: [
-        { insert: "本周重点工作总结", attributes: { header: 2 } },
-        { insert: "\n" },
-        { insert: "🎉 618预热表现超预期！", attributes: { bold: true, color: "#e74c3c" } },
-        { insert: "\n\n" },
-        { insert: "1. 暑期活动H5正式上线", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "首日访问量突破5万，转化率达到6.2%\n" },
-        { insert: "2. 植物王国上架首周销量突破550单", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "超出预期38%，已追加库存\n" },
-        { insert: "3. KOL投放首批内容发布", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "3位KOL发布视频，累计播放量超500万\n" },
-        { insert: "4. 站外PR覆盖主流媒体", attributes: { bold: true } },
-        { insert: "\n" },
-        { insert: "人民日报教育版报道，品牌声量大幅提升\n" }
-      ]
-    },
+    weekHighlights: "<h2>本周重点工作总结</h2><p><b style=\"color:#e74c3c\">🎉 618预热表现超预期！</b></p><p><b>1. 暑期活动H5正式上线</b></p><p>首日访问量突破5万，转化率达到6.2%</p><p><b>2. 植物王国上架首周销量突破550单</b></p><p>超出预期38%，已追加库存</p><p><b>3. KOL投放首批内容发布</b></p><p>3位KOL发布视频，累计播放量超500万</p><p><b>4. 站外PR覆盖主流媒体</b></p><p>人民日报教育版报道，品牌声量大幅提升</p>",
     nextWeekPlan: [
       { id: 1, task: "618正式期活动执行", deliverable: "全渠道活动上线", deadline: "6.09" },
       { id: 2, task: "KOL第二批投放", deliverable: "5位KOL内容发布", deadline: "6.12" },

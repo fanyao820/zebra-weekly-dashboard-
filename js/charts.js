@@ -25,7 +25,7 @@ const chartDefaults = {
     tooltip: {
       mode: 'index',
       intersect: false,
-      backgroundColor: 'rgba(26, 54, 93, 0.9)',
+      backgroundColor: 'rgba(30, 95, 194, 0.9)',
       padding: 10,
       cornerRadius: 6
     }
@@ -74,16 +74,16 @@ function renderSalesChart(currentWeekIndex) {
         {
           label: '收入(万)',
           data: revenueData.map(v => (v / 10000).toFixed(1)),
-          borderColor: '#1a365d',
-          backgroundColor: 'rgba(26, 54, 93, 0.1)',
+          borderColor: '#1E5FC2',
+          backgroundColor: 'rgba(30, 95, 194, 0.1)',
           fill: true,
           yAxisID: 'y'
         },
         {
           label: '订单量',
           data: ordersData,
-          borderColor: '#3182ce',
-          backgroundColor: 'rgba(49, 130, 206, 0.1)',
+          borderColor: '#4A90D9',
+          backgroundColor: 'rgba(74, 144, 217, 0.1)',
           fill: false,
           yAxisID: 'y1'
         }
@@ -136,16 +136,16 @@ function renderExposureChart(currentWeekIndex) {
         {
           label: '商城PV(万)',
           data: pvData.map(v => (v / 10000).toFixed(1)),
-          borderColor: '#2b6cb0',
-          backgroundColor: 'rgba(43, 108, 176, 0.1)',
+          borderColor: '#1E5FC2',
+          backgroundColor: 'rgba(30, 95, 194, 0.1)',
           fill: true,
           yAxisID: 'y'
         },
         {
           label: '商城UV(万)',
           data: uvData.map(v => (v / 10000).toFixed(1)),
-          borderColor: '#4299e1',
-          backgroundColor: 'rgba(66, 153, 225, 0.1)',
+          borderColor: '#4A90D9',
+          backgroundColor: 'rgba(74, 144, 217, 0.1)',
           fill: false,
           yAxisID: 'y'
         },

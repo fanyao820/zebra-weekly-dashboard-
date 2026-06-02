@@ -5,10 +5,10 @@
 
 /* ===== CSS变量 — 蓝色主题配色 ===== */
 :root {
-  --primary: #4A90D9;
-  --primary-light: #6DB3F2;
-  --primary-lighter: #89C4F4;
-  --accent: #2E75B6;
+  --primary: #1E5FC2;
+  --primary-light: #2E6CC4;
+  --primary-lighter: #4A90D9;
+  --accent: #1E5FC2;
   --success: #52B788;
   --warning: #F4A261;
   --danger: #E76F51;
@@ -17,8 +17,8 @@
   --text: #1A1A2E;
   --text-light: #6C757D;
   --border: #E9ECEF;
-  --shadow: 0 2px 12px rgba(74, 144, 217, 0.06);
-  --shadow-lg: 0 8px 24px rgba(74, 144, 217, 0.1);
+  --shadow: 0 2px 12px rgba(30, 95, 194, 0.06);
+  --shadow-lg: 0 8px 24px rgba(30, 95, 194, 0.1);
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -47,7 +47,7 @@ body {
 
 /* ===== 顶部导航 ===== */
 .header {
-  background: linear-gradient(135deg, #4A90D9 0%, #6DB3F2 60%, #89C4F4 100%);
+  background: linear-gradient(135deg, #1E5FC2 0%, #2E6CC4 60%, #4A90D9 100%);
   color: white;
   padding: 1rem;
   position: relative;
@@ -246,6 +246,27 @@ body {
   border-bottom: 2px solid var(--primary-light);
 }
 
+/* ===== 并排布局 ===== */
+.two-col-layout {
+  display: flex;
+  gap: 1rem;
+}
+
+.two-col-layout > .col-half {
+  flex: 1;
+  min-width: 0;
+}
+
+.two-col-layout > .col-60 {
+  flex: 0 0 60%;
+  min-width: 0;
+}
+
+.two-col-layout > .col-40 {
+  flex: 0 0 40%;
+  min-width: 0;
+}
+
 /* ===== OKR模块 ===== */
 .okr-item {
   margin-bottom: 1rem;
@@ -290,7 +311,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4A90D9, #89C4F4);
+  background: linear-gradient(90deg, #1E5FC2, #4A90D9);
   border-radius: 12px;
   transition: width 0.6s ease;
   display: flex;
@@ -308,7 +329,7 @@ body {
 /* ===== 数据卡片 ===== */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
 }
 
@@ -322,7 +343,7 @@ body {
 }
 
 .data-card.highlight {
-  background: linear-gradient(135deg, #4A90D9, #6DB3F2);
+  background: linear-gradient(135deg, #1E5FC2, #2E6CC4);
   color: white;
   grid-column: span 2;
 }
@@ -373,29 +394,45 @@ body {
 /* ===== 数据网格(紧凑) ===== */
 .data-grid.compact {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
 }
 
 .data-item {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.5rem;
   background: #f8faff;
   border-radius: 6px;
   border: 1px solid var(--border);
+  text-align: center;
 }
 
 .data-item .label {
   font-size: 0.72rem;
   color: var(--text-light);
+  margin-bottom: 0.25rem;
 }
 
 .data-item .value {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--primary);
+}
+
+.data-item .change {
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+
+.data-item .change.positive {
+  color: var(--success);
+}
+
+.data-item .change.negative {
+  color: var(--danger);
 }
 
 /* ===== 图表容器 ===== */
@@ -411,6 +448,13 @@ body {
 
 .chart-container canvas {
   max-height: 180px;
+}
+
+.chart-container h5 {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 /* ===== 表格 ===== */
@@ -526,13 +570,162 @@ body {
   background: var(--primary);
 }
 
-/* ===== Quill编辑器自定义 ===== */
+/* ===== 自定义富文本编辑器 ===== */
 .editor-wrapper {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
+.custom-toolbar {
+  display: none;
+  border-bottom: 1px solid var(--border);
+  background: #f8faff;
+  padding: 6px 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-mode .custom-toolbar {
+  display: flex !important;
+}
+
+.custom-toolbar button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s;
+  min-width: 28px;
+  text-align: center;
+}
+
+.custom-toolbar button:hover {
+  background: #e2e8f0;
+  border-color: var(--primary-light);
+}
+
+.custom-toolbar button.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.custom-toolbar .separator {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.custom-toolbar select {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  background: white;
+  outline: none;
+}
+
+.custom-toolbar .btn-clear-format {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.custom-toolbar .btn-image {
+  color: var(--primary);
+}
+
+.editor-content {
+  min-height: 150px;
+  padding: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  outline: none;
+  overflow-y: auto;
+}
+
+.editor-content:empty::before {
+  content: '请输入本周重点内容...';
+  color: var(--text-light);
+}
+
+.editor-content[contenteditable="false"] {
+  cursor: default;
+}
+
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.editor-save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-top: 1px solid var(--border);
+  background: #fafbfd;
+  font-size: 0.72rem;
+}
+
+.editor-save-bar .save-hint {
+  color: var(--danger);
+}
+
+.editor-save-bar .btn-save {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editor-save-bar .btn-save:hover {
+  background: var(--primary-light);
+}
+
+/* ===== 下周重点保存栏 ===== */
+.nextweek-save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+
+.nextweek-save-bar .save-hint {
+  color: var(--danger);
+}
+
+.nextweek-save-bar .btn-save {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nextweek-save-bar .btn-save:hover {
+  background: var(--primary-light);
+}
+
+/* ===== Quill编辑器自定义（保留兼容） ===== */
 .ql-toolbar {
   border: none !important;
   border-bottom: 1px solid var(--border) !important;
@@ -827,7 +1020,7 @@ body {
 
 .toc-nav a:hover {
   color: var(--primary);
-  background: rgba(255, 107, 53, 0.08);
+  background: rgba(30, 95, 194, 0.08);
 }
 
 .toc-nav a.active {
@@ -862,7 +1055,7 @@ body {
   }
 
   .data-grid.compact {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .chart-container {
@@ -871,6 +1064,17 @@ body {
 
   .section-body {
     padding: 0.75rem;
+  }
+
+  .two-col-layout {
+    flex-direction: column;
+  }
+
+  .two-col-layout > .col-half,
+  .two-col-layout > .col-60,
+  .two-col-layout > .col-40 {
+    flex: none;
+    width: 100%;
   }
 }
 
@@ -884,7 +1088,18 @@ body {
   }
 
   .data-grid.compact {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .two-col-layout {
+    flex-direction: column;
+  }
+
+  .two-col-layout > .col-half,
+  .two-col-layout > .col-60,
+  .two-col-layout > .col-40 {
+    flex: none;
+    width: 100%;
   }
 }
 
@@ -894,19 +1109,19 @@ body {
   }
 
   .cards-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .data-card.highlight {
-    grid-column: span 5;
+    grid-column: span 3;
   }
 
   .data-grid.compact {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .chart-container {
-    height: 320px;
+    height: 280px;
   }
 
   .section-body {
@@ -949,16 +1164,16 @@ body {
   }
 
   .cards-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
 
   .data-card.highlight {
-    grid-column: span 5;
+    grid-column: span 3;
   }
 
   .chart-container {
-    height: 360px;
+    height: 300px;
   }
 
   .section {

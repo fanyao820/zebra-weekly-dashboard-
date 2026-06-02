@@ -1,6 +1,6 @@
 /**
  * app.js - 主应用逻辑
- * 包含：周切换、权限系统、快照管理、数据渲染
+ * 包含：周切换、权限系统、快照管理、数据渲染、编辑器、保存功能
  */
 
 // ===== 全局状态 =====
@@ -9,7 +9,6 @@ const AppState = {
   isAdmin: false,      // 是否管理者模式
   isSnapshot: false,   // 是否在查看快照
   snapshots: [],       // 快照列表
-  quillEditor: null,   // Quill 编辑器实例
   sidebarOpen: false   // 侧边栏状态
 };
 
@@ -22,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSnapshots();
   // 初始化周选择器下拉框
   initWeekSelector();
-  // 初始化 Quill 编辑器
-  initQuillEditor();
+  // 初始化编辑器
+  initCustomEditor();
   // 渲染当前周数据
   renderWeek();
   // 绑定事件
@@ -61,12 +60,15 @@ function bindEvents() {
 
   // 下周重点 - 新增行
   document.getElementById('addRowBtn').addEventListener('click', addNextWeekRow);
+
+  // 保存按钮
+  document.getElementById('highlightsSaveBtn').addEventListener('click', saveHighlights);
+  document.getElementById('nextweekSaveBtn').addEventListener('click', saveNextWeek);
 }
 
 // ===== 周选择器初始化 =====
 function initWeekSelector() {
   const select = document.getElementById('weekSelect');
-  // 填充选项：格式为 "W23 (6.02-6.08)"
   AVAILABLE_WEEKS.forEach((weekKey, idx) => {
     const data = MOCK_DATA[weekKey];
     const option = document.createElement('option');
@@ -74,7 +76,6 @@ function initWeekSelector() {
     option.textContent = `${weekKey} (${data.dateRange})`;
     select.appendChild(option);
   });
-  // 默认选中最新周
   select.value = AppState.currentWeekIndex;
 }
 
@@ -84,7 +85,6 @@ function initTocNavigation() {
   const tocLinks = tocNav.querySelectorAll('a');
   const sectionIds = Array.from(tocLinks).map(a => a.getAttribute('href').slice(1));
 
-  // 点击平滑滚动
   tocLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -98,7 +98,6 @@ function initTocNavigation() {
     });
   });
 
-  // 滚动监听：高亮当前可视模块
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
@@ -109,8 +108,6 @@ function initTocNavigation() {
       ticking = true;
     }
   });
-
-  // 初始高亮
   updateTocHighlight(sectionIds, tocLinks);
 }
 
@@ -142,7 +139,6 @@ function updateTocHighlight(sectionIds, tocLinks) {
 // ===== 权限系统 =====
 function showLoginModal() {
   if (AppState.isAdmin) {
-    // 已登录，退出管理者模式
     AppState.isAdmin = false;
     updateAdminUI();
     showToast('已退出管理者模式');
@@ -181,9 +177,10 @@ function updateAdminUI() {
     document.getElementById('adminLoginBtn').textContent = '管理者登录';
     document.getElementById('adminLoginBtn').classList.remove('active');
   }
-  // 更新 Quill 编辑器状态
-  if (AppState.quillEditor) {
-    AppState.quillEditor.enable(AppState.isAdmin && !AppState.isSnapshot);
+  // 更新编辑器状态
+  const editor = document.getElementById('weekHighlightsEditor');
+  if (editor) {
+    editor.contentEditable = AppState.isAdmin && !AppState.isSnapshot ? 'true' : 'false';
   }
   // 更新下周重点表格可编辑状态
   updateNextWeekTableEditable();
@@ -191,26 +188,136 @@ function updateAdminUI() {
   updateOKREditable();
 }
 
-// ===== Quill 编辑器 =====
-function initQuillEditor() {
-  const toolbarOptions = [
-    [{ 'header': [1, 2, 3, false] }],
-    ['bold', 'italic', 'underline'],
-    [{ 'color': [] }],
-    [{ 'size': ['small', false, 'large', 'huge'] }],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ['image'],
-    ['clean']
-  ];
+// ===== 自定义富文本编辑器 =====
+function initCustomEditor() {
+  const toolbar = document.getElementById('editorToolbar');
+  
+  // 工具栏按钮事件
+  toolbar.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const cmd = btn.getAttribute('data-cmd');
+    if (!cmd) return;
+    
+    e.preventDefault();
+    const editor = document.getElementById('weekHighlightsEditor');
+    editor.focus();
 
-  AppState.quillEditor = new Quill('#weekHighlightsEditor', {
-    theme: 'snow',
-    modules: {
-      toolbar: toolbarOptions
-    },
-    placeholder: '请输入本周重点内容...',
-    readOnly: true // 默认只读
+    if (cmd === 'insertImage') {
+      handleInsertImage();
+    } else if (cmd === 'removeFormat') {
+      document.execCommand('removeFormat', false, null);
+    } else if (cmd.startsWith('formatBlock-')) {
+      const tag = cmd.split('-')[1];
+      document.execCommand('formatBlock', false, '<' + tag + '>');
+    } else if (cmd === 'indent') {
+      document.execCommand('indent', false, null);
+    } else if (cmd === 'outdent') {
+      document.execCommand('outdent', false, null);
+    } else {
+      document.execCommand(cmd, false, null);
+    }
   });
+
+  // 字号下拉
+  document.getElementById('fontSizeSelect').addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (val) {
+      document.getElementById('weekHighlightsEditor').focus();
+      document.execCommand('fontSize', false, val);
+    }
+    e.target.value = '';
+  });
+
+  // 行距下拉
+  document.getElementById('lineHeightSelect').addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (val) {
+      const sel = window.getSelection();
+      if (sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0);
+        let container = range.commonAncestorContainer;
+        if (container.nodeType === 3) container = container.parentElement;
+        // Find block-level parent
+        while (container && !['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'LI', 'BLOCKQUOTE'].includes(container.tagName)) {
+          container = container.parentElement;
+        }
+        if (container) {
+          container.style.lineHeight = val;
+        }
+      }
+    }
+    e.target.value = '';
+  });
+}
+
+function handleInsertImage() {
+  const url = prompt('请输入图片URL（或点取消后选择本地文件上传）:');
+  if (url) {
+    document.execCommand('insertImage', false, url);
+  } else {
+    // 创建隐藏的文件选择器
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          document.getElementById('weekHighlightsEditor').focus();
+          document.execCommand('insertImage', false, ev.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  }
+}
+
+// ===== localStorage 保存/加载 =====
+function getWeekKey() {
+  return AVAILABLE_WEEKS[AppState.currentWeekIndex];
+}
+
+function saveHighlights() {
+  const weekKey = getWeekKey();
+  const editor = document.getElementById('weekHighlightsEditor');
+  const content = editor.innerHTML;
+  localStorage.setItem(`weeklyReport_${weekKey}_highlights`, content);
+  showToast('本周重点已保存');
+}
+
+function loadHighlights(weekKey) {
+  const saved = localStorage.getItem(`weeklyReport_${weekKey}_highlights`);
+  return saved;
+}
+
+function saveNextWeek() {
+  const weekKey = getWeekKey();
+  const rows = [];
+  document.querySelectorAll('#nextWeekBody tr').forEach((tr, idx) => {
+    rows.push({
+      id: idx + 1,
+      task: tr.cells[1].textContent,
+      deliverable: tr.cells[2].textContent,
+      deadline: tr.cells[3].textContent
+    });
+  });
+  localStorage.setItem(`weeklyReport_${weekKey}_nextweek`, JSON.stringify(rows));
+  showToast('下周重点已保存');
+}
+
+function loadNextWeek(weekKey) {
+  const saved = localStorage.getItem(`weeklyReport_${weekKey}_nextweek`);
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 }
 
 // ===== 数据渲染 =====
@@ -233,8 +340,8 @@ function renderWeek() {
   renderTopSKU(data.internalData.topSKU);
   renderBookReservation(data.internalData.bookReservation);
   renderExternalData(data.externalData);
-  renderWeekHighlights(data.weekHighlights);
-  renderNextWeekPlan(data.nextWeekPlan);
+  renderWeekHighlights(data.weekHighlights, weekKey);
+  renderNextWeekPlan(data.nextWeekPlan, weekKey);
 
   // 更新图表
   updateAllCharts(AppState.currentWeekIndex);
@@ -269,83 +376,139 @@ function updateOKREditable() {
   });
 }
 
-// 渲染总售卖数据
+// 环比变化 HTML
+function wowHtml(val) {
+  if (val === null || val === undefined) return '';
+  const isPositive = val >= 0;
+  // 对于退费率，下降是好事（仍保持颜色逻辑：下降红色/增长绿色对应数值方向）
+  const cls = isPositive ? 'positive' : 'negative';
+  const icon = isPositive ? '▲' : '▼';
+  return `<div class="card-change ${cls}">${icon} ${Math.abs(val).toFixed(1)}%</div>`;
+}
+
+function wowHtmlItem(val) {
+  if (val === null || val === undefined) return '';
+  const isPositive = val >= 0;
+  const cls = isPositive ? 'positive' : 'negative';
+  const icon = isPositive ? '▲' : '▼';
+  return `<span class="change ${cls}">${icon}${Math.abs(val).toFixed(1)}%</span>`;
+}
+
+// 渲染总售卖数据 (2行3列 + 环比)
 function renderSalesOverview(data) {
   const container = document.getElementById('salesOverview');
-  const changeIcon = data.revenueChange >= 0 ? '↑' : '↓';
-  const changeClass = data.revenueChange >= 0 ? 'positive' : 'negative';
+  const wow = data.wow || {};
 
   container.innerHTML = `
-    <div class="data-card highlight">
-      <div class="card-label">总收入</div>
+    <div class="data-card">
+      <div class="card-label">收入</div>
       <div class="card-value">¥${formatNumber(data.totalRevenue)}</div>
-      <div class="card-change ${changeClass}">${changeIcon} ${Math.abs(data.revenueChange)}%</div>
+      ${wowHtml(wow.totalRevenue)}
     </div>
     <div class="data-card">
       <div class="card-label">总订单量</div>
       <div class="card-value">${formatNumber(data.totalOrders)}</div>
+      ${wowHtml(wow.totalOrders)}
     </div>
     <div class="data-card">
       <div class="card-label">总订单UV</div>
       <div class="card-value">${formatNumber(data.totalOrderUV)}</div>
+      ${wowHtml(wow.totalOrderUV)}
     </div>
     <div class="data-card">
       <div class="card-label">人均订单量</div>
       <div class="card-value">${data.avgOrdersPerUser}</div>
+      ${wowHtml(wow.avgOrdersPerUser)}
     </div>
     <div class="data-card">
       <div class="card-label">单均价格</div>
       <div class="card-value">¥${data.avgPrice}</div>
+      ${wowHtml(wow.avgPrice)}
     </div>
     <div class="data-card">
       <div class="card-label">总退费率</div>
       <div class="card-value">${data.refundRate}%</div>
+      ${wowHtml(wow.refundRate)}
     </div>
   `;
 }
 
-// 渲染下载拉新数据
+// 渲染下载拉新数据 (2行3列 + 环比)
 function renderDownloadData(data) {
   const container = document.getElementById('downloadData');
+  const wow = data.wow || {};
+
   container.innerHTML = `
     <div class="data-card">
       <div class="card-label">兑换新用户</div>
       <div class="card-value">${formatNumber(data.redeemNewUsers)}</div>
+      ${wowHtml(wow.redeemNewUsers)}
     </div>
     <div class="data-card">
       <div class="card-label">兑换率</div>
       <div class="card-value">${data.redeemRate}%</div>
+      ${wowHtml(wow.redeemRate)}
     </div>
     <div class="data-card">
       <div class="card-label">拉新用户</div>
       <div class="card-value">${formatNumber(data.newUsers)}</div>
+      ${wowHtml(wow.newUsers)}
     </div>
     <div class="data-card">
       <div class="card-label">转化率</div>
       <div class="card-value">${data.conversionRate}%</div>
+      ${wowHtml(wow.conversionRate)}
     </div>
     <div class="data-card">
       <div class="card-label">转化总GMV</div>
       <div class="card-value">¥${formatNumber(data.totalGMV)}</div>
+      ${wowHtml(wow.totalGMV)}
     </div>
     <div class="data-card">
       <div class="card-label">客单价</div>
       <div class="card-value">¥${data.avgPrice}</div>
+      ${wowHtml(wow.avgPrice)}
     </div>
   `;
 }
 
-// 渲染站内销售数据
+// 渲染站内销售数据（带环比）
 function renderInternalSales(data) {
   const container = document.getElementById('internalSales');
+  const wow = data.wow || {};
+
   container.innerHTML = `
     <div class="data-grid compact">
-      <div class="data-item"><span class="label">收入</span><span class="value">¥${formatNumber(data.revenue)}</span></div>
-      <div class="data-item"><span class="label">订单量</span><span class="value">${formatNumber(data.orders)}</span></div>
-      <div class="data-item"><span class="label">订单UV</span><span class="value">${formatNumber(data.orderUV)}</span></div>
-      <div class="data-item"><span class="label">人均订单量</span><span class="value">${data.avgOrdersPerUser}</span></div>
-      <div class="data-item"><span class="label">单均价格</span><span class="value">¥${data.avgPrice}</span></div>
-      <div class="data-item"><span class="label">退费率</span><span class="value">${data.refundRate}%</span></div>
+      <div class="data-item">
+        <span class="label">收入</span>
+        <span class="value">¥${formatNumber(data.revenue)}</span>
+        ${wowHtmlItem(wow.revenue)}
+      </div>
+      <div class="data-item">
+        <span class="label">订单量</span>
+        <span class="value">${formatNumber(data.orders)}</span>
+        ${wowHtmlItem(wow.orders)}
+      </div>
+      <div class="data-item">
+        <span class="label">订单UV</span>
+        <span class="value">${formatNumber(data.orderUV)}</span>
+        ${wowHtmlItem(wow.orderUV)}
+      </div>
+      <div class="data-item">
+        <span class="label">人均订单量</span>
+        <span class="value">${data.avgOrdersPerUser}</span>
+        ${wowHtmlItem(wow.avgOrdersPerUser)}
+      </div>
+      <div class="data-item">
+        <span class="label">单均价格</span>
+        <span class="value">¥${data.avgPrice}</span>
+        ${wowHtmlItem(wow.avgPrice)}
+      </div>
+      <div class="data-item">
+        <span class="label">退费率</span>
+        <span class="value">${data.refundRate}%</span>
+        ${wowHtmlItem(wow.refundRate)}
+      </div>
     </div>
   `;
 }
@@ -422,7 +585,6 @@ function renderBookReservation(data) {
 function renderExternalData(data) {
   const subsection = document.getElementById('section-external');
 
-  // 核心逻辑：无数据时自动隐藏
   if (!data || (!data.seeding?.length && !data.pr?.length)) {
     subsection.style.display = 'none';
     return;
@@ -433,7 +595,6 @@ function renderExternalData(data) {
 
   let html = '';
 
-  // 种草数据
   if (data.seeding && data.seeding.length > 0) {
     html += `
       <div class="subsection">
@@ -459,7 +620,6 @@ function renderExternalData(data) {
     `;
   }
 
-  // PR传播数据
   if (data.pr && data.pr.length > 0) {
     html += `
       <div class="subsection">
@@ -487,18 +647,32 @@ function renderExternalData(data) {
   container.innerHTML = html;
 }
 
-// 渲染本周重点
-function renderWeekHighlights(data) {
-  if (AppState.quillEditor && data) {
-    AppState.quillEditor.setContents(data);
+// 渲染本周重点 - 使用HTML内容
+function renderWeekHighlights(data, weekKey) {
+  const editor = document.getElementById('weekHighlightsEditor');
+  // 优先从localStorage加载
+  const saved = loadHighlights(weekKey);
+  if (saved !== null) {
+    editor.innerHTML = saved;
+  } else if (data) {
+    // data is HTML string
+    editor.innerHTML = data;
+  } else {
+    editor.innerHTML = '';
   }
+  // 设置可编辑状态
+  editor.contentEditable = AppState.isAdmin && !AppState.isSnapshot ? 'true' : 'false';
 }
 
 // 渲染下周重点
-function renderNextWeekPlan(data) {
+function renderNextWeekPlan(data, weekKey) {
   const tbody = document.getElementById('nextWeekBody');
-  tbody.innerHTML = data.map((item, idx) => `
-    <tr data-row-id="${item.id}">
+  // 优先从localStorage加载
+  const saved = loadNextWeek(weekKey);
+  const rows = saved || data;
+
+  tbody.innerHTML = rows.map((item, idx) => `
+    <tr data-row-id="${item.id || idx + 1}">
       <td>${idx + 1}</td>
       <td contenteditable="false" class="editable-cell">${item.task}</td>
       <td contenteditable="false" class="editable-cell">${item.deliverable}</td>
@@ -555,7 +729,7 @@ function createSnapshot() {
   const data = MOCK_DATA[weekKey];
 
   // 获取当前编辑器内容
-  const highlights = AppState.quillEditor ? AppState.quillEditor.getContents() : data.weekHighlights;
+  const highlights = document.getElementById('weekHighlightsEditor').innerHTML;
 
   // 获取下周重点表格内容
   const nextWeekRows = [];
@@ -628,20 +802,19 @@ function viewSnapshot(id) {
     nextWeekPlan: snapshot.nextWeekPlan
   };
 
-  // 切换到快照对应的周
   const weekIdx = AVAILABLE_WEEKS.indexOf(snapshot.weekKey);
   if (weekIdx >= 0) AppState.currentWeekIndex = weekIdx;
 
   renderWeek();
   toggleSidebar();
 
-  // 显示快照提示条
   document.getElementById('snapshotBanner').style.display = 'flex';
   document.getElementById('snapshotBannerText').textContent =
     `正在查看快照：${snapshot.weekKey} - ${snapshot.timestamp}`;
 
   // 禁用编辑
-  if (AppState.quillEditor) AppState.quillEditor.enable(false);
+  const editor = document.getElementById('weekHighlightsEditor');
+  if (editor) editor.contentEditable = 'false';
   updateNextWeekTableEditable();
 }
 

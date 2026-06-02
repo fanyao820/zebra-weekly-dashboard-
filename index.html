@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>斑马百科 · 产品营销周报看板</title>
 
-  <!-- Chart.js CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css">
-  <link rel="stylesheet" href="css/style.css?v=20260602">
+  <link rel="stylesheet" href="css/style.css?v=20260602b">
 </head>
 <body>
   <!-- ===== 顶部导航 ===== -->
@@ -66,47 +64,58 @@
       </div>
       <div class="section-body">
 
-        <!-- 2.1 总售卖数据 -->
-        <div class="subsection" id="section-sales">
-          <h4>💰 总售卖数据</h4>
-          <div class="cards-grid" id="salesOverview">
-            <!-- JS动态渲染 -->
+        <!-- 2.1 + 2.2 总售卖数据 + 总下载拉新数据 并排布局 -->
+        <div class="two-col-layout" id="salesDownloadRow">
+          <div class="col-half">
+            <div class="subsection" id="section-sales">
+              <h4>💰 总售卖数据</h4>
+              <div class="cards-grid" id="salesOverview">
+                <!-- JS动态渲染 -->
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- 2.2 总下载拉新数据 -->
-        <div class="subsection" id="section-download">
-          <h4>📲 总下载拉新数据</h4>
-          <div class="cards-grid" id="downloadData">
-            <!-- JS动态渲染 -->
+          <div class="col-half">
+            <div class="subsection" id="section-download">
+              <h4>📲 总下载拉新数据</h4>
+              <div class="cards-grid" id="downloadData">
+                <!-- JS动态渲染 -->
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- 2.3 站内周数据 -->
         <div class="subsection" id="section-internal">
           <h4>📊 站内周数据</h4>
-          <!-- (1) 销售数据 -->
+          <!-- (1) 销售数据 - 左右并排布局 -->
           <div class="subsection">
             <h4>📈 销售数据</h4>
-            <div id="internalSales"></div>
-            <div class="chart-container">
-              <canvas id="salesChart"></canvas>
+            <div class="two-col-layout">
+              <div class="col-60">
+                <div id="internalSales"></div>
+              </div>
+              <div class="col-40">
+                <div class="chart-container" style="height: 240px;">
+                  <h5>站内销售周趋势</h5>
+                  <canvas id="salesChart"></canvas>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- (2) 商城曝光数据 -->
+          <!-- (2) TOP-SKU (moved before 商城曝光) -->
+          <div class="subsection">
+            <h4>🏆 TOP-SKU</h4>
+            <div id="topSKU"></div>
+          </div>
+
+          <!-- (3) 商城曝光数据 -->
           <div class="subsection">
             <h4>👁️ 商城曝光数据</h4>
             <div id="exposureData"></div>
             <div class="chart-container">
               <canvas id="exposureChart"></canvas>
             </div>
-          </div>
-
-          <!-- (3) TOP-SKU -->
-          <div class="subsection">
-            <h4>🏆 TOP-SKU</h4>
-            <div id="topSKU"></div>
           </div>
 
           <!-- (4) 图书预约数据 -->
@@ -143,7 +152,48 @@
       </div>
       <div class="section-body">
         <div class="editor-wrapper">
-          <div id="weekHighlightsEditor"></div>
+          <!-- 自定义工具栏 -->
+          <div class="custom-toolbar" id="editorToolbar">
+            <button data-cmd="bold" title="加粗"><b>B</b></button>
+            <button data-cmd="italic" title="斜体"><i>I</i></button>
+            <button data-cmd="underline" title="下划线"><u>U</u></button>
+            <span class="separator"></span>
+            <select id="fontSizeSelect" title="字号">
+              <option value="">字号</option>
+              <option value="1">小</option>
+              <option value="3">正常</option>
+              <option value="4">大</option>
+              <option value="5">特大</option>
+            </select>
+            <select id="lineHeightSelect" title="行距">
+              <option value="">行距</option>
+              <option value="1.2">1.2</option>
+              <option value="1.5">1.5</option>
+              <option value="1.8">1.8</option>
+              <option value="2.0">2.0</option>
+              <option value="2.5">2.5</option>
+            </select>
+            <span class="separator"></span>
+            <button data-cmd="indent" title="增加缩进">缩进→</button>
+            <button data-cmd="outdent" title="减少缩进">←缩进</button>
+            <span class="separator"></span>
+            <button data-cmd="insertOrderedList" title="有序列表">1.</button>
+            <button data-cmd="insertUnorderedList" title="无序列表">•</button>
+            <span class="separator"></span>
+            <button data-cmd="formatBlock-blockquote" title="引用">引用</button>
+            <button data-cmd="formatBlock-h2" title="标题">标题</button>
+            <button data-cmd="formatBlock-p" title="段落">段落</button>
+            <span class="separator"></span>
+            <button data-cmd="insertImage" class="btn-image" title="插入图片">🖼️</button>
+            <button data-cmd="removeFormat" class="btn-clear-format" title="删除格式">✕</button>
+          </div>
+          <!-- 编辑区域 -->
+          <div class="editor-content" id="weekHighlightsEditor" contenteditable="false"></div>
+          <!-- 保存状态栏 -->
+          <div class="editor-save-bar">
+            <span class="save-hint">⚠️ 内容自动保存到浏览器本地</span>
+            <button class="btn-save" id="highlightsSaveBtn">💾 保存</button>
+          </div>
         </div>
       </div>
     </section>
@@ -172,6 +222,11 @@
           </table>
         </div>
         <button id="addRowBtn" class="admin-only">+ 新增行</button>
+        <!-- 保存栏 -->
+        <div class="nextweek-save-bar">
+          <span class="save-hint">⚠️ 内容保存到浏览器本地</span>
+          <button class="btn-save" id="nextweekSaveBtn">💾 保存</button>
+        </div>
       </div>
     </section>
 
@@ -207,11 +262,10 @@
 
   <!-- ===== JS依赖 ===== -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 
   <!-- 应用JS -->
-  <script src="js/data.js?v=20260602"></script>
-  <script src="js/charts.js?v=20260602"></script>
-  <script src="js/app.js?v=20260602"></script>
+  <script src="js/data.js?v=20260602b"></script>
+  <script src="js/charts.js?v=20260602b"></script>
+  <script src="js/app.js?v=20260602b"></script>
 </body>
 </html>
