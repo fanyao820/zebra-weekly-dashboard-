@@ -251,7 +251,6 @@ body {
 .two-col-layout {
   display: flex;
   gap: 1rem;
-  align-items: stretch;
 }
 
 .two-col-layout > .col-half {
@@ -259,14 +258,13 @@ body {
   min-width: 0;
 }
 
-.two-col-layout.equal > .col-half > .chart-container {
-  height: 100%;
-  margin-top: 0;
-  box-sizing: border-box;
+.two-col-layout.equal {
+  align-items: center;
 }
 
-.two-col-layout.equal > .col-half > .chart-container canvas {
-  max-height: none;
+.two-col-layout.equal > .col-half > .chart-container {
+  height: 250px;
+  margin-top: 0;
 }
 
 .two-col-layout > .col-60 {
@@ -280,7 +278,7 @@ body {
 }
 
 .two-col-layout > .col-40 .chart-container {
-  height: 100%;
+  height: 250px;
   margin-top: 0;
 }
 
