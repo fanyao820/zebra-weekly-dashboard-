@@ -96,12 +96,12 @@
           <!-- (1) 销售数据 - 左右并排布局 -->
           <div class="subsection">
             <h4>📈 销售数据</h4>
-            <div class="two-col-layout equal">
-              <div class="col-half">
+            <div class="two-col-layout equal" style="display:flex;gap:1rem;align-items:flex-start;">
+              <div class="col-half" style="flex:1;min-width:0;">
                 <div id="internalSales"></div>
               </div>
-              <div class="col-half">
-                <div class="chart-container">
+              <div class="col-half" style="flex:1;min-width:0;">
+                <div class="chart-container" style="height:220px;margin-top:0;">
                   <h5>站内销售周趋势</h5>
                   <canvas id="salesChart"></canvas>
                 </div>
