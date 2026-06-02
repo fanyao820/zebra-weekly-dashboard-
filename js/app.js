@@ -508,46 +508,46 @@ function renderExposure(data) {
   const t = data.total;
   const entries = data.entries || [];
   container.innerHTML = `
-    <!-- 总数据卡片（橘色） -->
+    <!-- 总数据卡片（蓝色边框+橘色数值） -->
     <div class="data-grid compact" style="margin-bottom:1rem;">
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商城曝光UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.uv)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商城曝光PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.pv)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商品曝光PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.productPV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商品点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.clickUV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商品点击PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.clickPV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">商品点击率</span>
         <span class="value" style="color:#E67E22;">${t.clickRate}%</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">Banner点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.bannerClickUV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">Banner点击率</span>
         <span class="value" style="color:#E67E22;">${t.bannerClickRate}%</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #E67E22;">
+      <div class="data-item" style="border-left:3px solid #1E5FC2;">
         <span class="label">分类栏点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.categoryClickUV)}</span>
       </div>
     </div>
-    <!-- 分入口数据表格（蓝色） -->
+    <!-- 分入口数据表格 -->
     <div class="table-wrapper">
       <table class="data-table">
         <thead>
@@ -559,18 +559,18 @@ function renderExposure(data) {
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#FFF8F0;font-weight:bold;">
-            <td style="color:#E67E22;">total</td>
-            <td style="color:#E67E22;">${formatNumber(t.uv)}</td>
-            <td style="color:#E67E22;">${formatNumber(t.pv)}</td>
-            <td style="color:#E67E22;">${t.avgVisit}</td>
+          <tr style="background:#FFF8F0;">
+            <td style="color:#E67E22;font-weight:bold;">total</td>
+            <td style="color:#E67E22;font-weight:bold;">${formatNumber(t.uv)}</td>
+            <td style="color:#E67E22;font-weight:bold;">${formatNumber(t.pv)}</td>
+            <td style="color:#E67E22;font-weight:bold;">${t.avgVisit}</td>
           </tr>
           ${entries.map(e => `
             <tr>
               <td style="color:#1E5FC2;">${e.name}</td>
-              <td style="color:#1E5FC2;">${formatNumber(e.uv)}</td>
-              <td style="color:#1E5FC2;">${formatNumber(e.pv)}</td>
-              <td style="color:#1E5FC2;">${e.avgVisit}</td>
+              <td>${formatNumber(e.uv)}</td>
+              <td>${formatNumber(e.pv)}</td>
+              <td>${e.avgVisit}</td>
             </tr>
           `).join('')}
         </tbody>
