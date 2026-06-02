@@ -34,15 +34,12 @@
   </div>
 
   <!-- 周次副标题 -->
-  <div class="week-subtitle" id="weekSubtitle">W23 (6.02-6.08)</div>
+  <div class="week-subtitle" id="weekSubtitle">W23 (6.01-6.07)</div>
 
   <!-- ===== 目录导航栏 ===== -->
   <nav class="toc-nav" id="tocNav">
     <a href="#section-okr">OKR完成情况</a>
-    <a href="#section-sales">总售卖数据</a>
-    <a href="#section-download">总下载拉新</a>
-    <a href="#section-internal">站内周数据</a>
-    <a href="#section-external">站外曝光</a>
+    <a href="#section-data-overview">数据总览</a>
     <a href="#section-highlights">本周重点</a>
     <a href="#section-nextweek">下周重点</a>
   </nav>
@@ -62,87 +59,79 @@
     </section>
 
     <!-- 二、数据总览 -->
-    <!-- 2.1 总售卖数据 -->
-    <section class="section" id="section-sales">
-      <div class="section-header">
-        <span class="section-icon">💰</span>
-        <h2>总售卖数据</h2>
-      </div>
-      <div class="section-body">
-        <div class="cards-grid" id="salesOverview">
-          <!-- JS动态渲染 -->
-        </div>
-      </div>
-    </section>
-
-    <!-- 2.2 总下载拉新数据 -->
-    <section class="section" id="section-download">
-      <div class="section-header">
-        <span class="section-icon">📲</span>
-        <h2>总下载拉新数据</h2>
-      </div>
-      <div class="section-body">
-        <div class="cards-grid" id="downloadData">
-          <!-- JS动态渲染 -->
-        </div>
-      </div>
-    </section>
-
-    <!-- 2.3 站内周数据 -->
-    <section class="section" id="section-internal">
+    <section class="section" id="section-data-overview">
       <div class="section-header">
         <span class="section-icon">📊</span>
-        <h2>站内周数据</h2>
+        <h2>数据总览</h2>
       </div>
       <div class="section-body">
-        <!-- (1) 销售数据 -->
-        <div class="subsection">
-          <h4>📈 销售数据</h4>
-          <div id="internalSales"></div>
-          <div class="chart-container">
-            <canvas id="salesChart"></canvas>
+
+        <!-- 2.1 总售卖数据 -->
+        <div class="subsection" id="section-sales">
+          <h4>💰 总售卖数据</h4>
+          <div class="cards-grid" id="salesOverview">
+            <!-- JS动态渲染 -->
           </div>
         </div>
 
-        <!-- (2) 商城曝光数据 -->
-        <div class="subsection">
-          <h4>👁️ 商城曝光数据</h4>
-          <div id="exposureData"></div>
-          <div class="chart-container">
-            <canvas id="exposureChart"></canvas>
+        <!-- 2.2 总下载拉新数据 -->
+        <div class="subsection" id="section-download">
+          <h4>📲 总下载拉新数据</h4>
+          <div class="cards-grid" id="downloadData">
+            <!-- JS动态渲染 -->
           </div>
         </div>
 
-        <!-- (3) TOP-SKU -->
-        <div class="subsection">
-          <h4>🏆 TOP-SKU</h4>
-          <div id="topSKU"></div>
-        </div>
+        <!-- 2.3 站内周数据 -->
+        <div class="subsection" id="section-internal">
+          <h4>📊 站内周数据</h4>
+          <!-- (1) 销售数据 -->
+          <div class="subsection">
+            <h4>📈 销售数据</h4>
+            <div id="internalSales"></div>
+            <div class="chart-container">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
 
-        <!-- (4) 图书预约数据 -->
-        <div class="subsection">
-          <h4>📚 图书预约数据</h4>
-          <div class="cards-grid" id="bookReservation"></div>
-        </div>
+          <!-- (2) 商城曝光数据 -->
+          <div class="subsection">
+            <h4>👁️ 商城曝光数据</h4>
+            <div id="exposureData"></div>
+            <div class="chart-container">
+              <canvas id="exposureChart"></canvas>
+            </div>
+          </div>
 
-        <!-- 退费率趋势（小图） -->
-        <div class="subsection">
-          <h4>📉 退费率趋势</h4>
-          <div class="chart-container" style="height: 150px;">
-            <canvas id="refundChart"></canvas>
+          <!-- (3) TOP-SKU -->
+          <div class="subsection">
+            <h4>🏆 TOP-SKU</h4>
+            <div id="topSKU"></div>
+          </div>
+
+          <!-- (4) 图书预约数据 -->
+          <div class="subsection">
+            <h4>📚 图书预约数据</h4>
+            <div class="cards-grid" id="bookReservation"></div>
+          </div>
+
+          <!-- 退费率趋势（小图） -->
+          <div class="subsection">
+            <h4>📉 退费率趋势</h4>
+            <div class="chart-container" style="height: 150px;">
+              <canvas id="refundChart"></canvas>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 2.4 站外曝光数据（支持无数据自动隐藏） -->
-    <section class="section" id="section-external">
-      <div class="section-header">
-        <span class="section-icon">🌐</span>
-        <h2>站外曝光数据</h2>
-      </div>
-      <div class="section-body" id="externalData">
-        <!-- JS动态渲染，无数据时整个section隐藏 -->
+        <!-- 2.4 站外曝光数据 -->
+        <div class="subsection" id="section-external">
+          <h4>🌐 站外曝光数据</h4>
+          <div id="externalData">
+            <!-- JS动态渲染，无数据时整个subsection隐藏 -->
+          </div>
+        </div>
+
       </div>
     </section>
 

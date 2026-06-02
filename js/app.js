@@ -120,9 +120,9 @@ function updateTocHighlight(sectionIds, tocLinks) {
   let activeId = sectionIds[0];
 
   for (const id of sectionIds) {
-    const section = document.getElementById(id);
-    if (section && section.style.display !== 'none') {
-      const rect = section.getBoundingClientRect();
+    const el = document.getElementById(id);
+    if (el && el.style.display !== 'none') {
+      const rect = el.getBoundingClientRect();
       if (rect.top <= offset) {
         activeId = id;
       }
@@ -420,15 +420,15 @@ function renderBookReservation(data) {
 
 // 渲染站外曝光数据（支持无数据时隐藏）
 function renderExternalData(data) {
-  const section = document.getElementById('section-external');
+  const subsection = document.getElementById('section-external');
 
   // 核心逻辑：无数据时自动隐藏
   if (!data || (!data.seeding?.length && !data.pr?.length)) {
-    section.style.display = 'none';
+    subsection.style.display = 'none';
     return;
   }
 
-  section.style.display = 'block';
+  subsection.style.display = 'block';
   const container = document.getElementById('externalData');
 
   let html = '';

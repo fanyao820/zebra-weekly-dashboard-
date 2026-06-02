@@ -3,22 +3,22 @@
  * 响应式设计，移动优先
  */
 
-/* ===== CSS变量 — 高端简约配色（墨绿+金） ===== */
+/* ===== CSS变量 — 蓝色主题配色 ===== */
 :root {
-  --primary: #1B4332;
-  --primary-light: #2D6A4F;
-  --primary-lighter: #40916C;
-  --accent: #B08D57;
-  --success: #40916C;
-  --warning: #D4A574;
-  --danger: #C1666B;
+  --primary: #4A90D9;
+  --primary-light: #6DB3F2;
+  --primary-lighter: #89C4F4;
+  --accent: #2E75B6;
+  --success: #52B788;
+  --warning: #F4A261;
+  --danger: #E76F51;
   --bg: #F8F9FA;
   --card-bg: #FFFFFF;
   --text: #1A1A2E;
   --text-light: #6C757D;
   --border: #E9ECEF;
-  --shadow: 0 2px 12px rgba(27, 67, 50, 0.06);
-  --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.1);
+  --shadow: 0 2px 12px rgba(74, 144, 217, 0.06);
+  --shadow-lg: 0 8px 24px rgba(74, 144, 217, 0.1);
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -47,7 +47,7 @@ body {
 
 /* ===== 顶部导航 ===== */
 .header {
-  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #40916C 100%);
+  background: linear-gradient(135deg, #4A90D9 0%, #6DB3F2 60%, #89C4F4 100%);
   color: white;
   padding: 1rem;
   position: relative;
@@ -205,7 +205,7 @@ body {
 }
 
 .section-header h2 {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--primary);
 }
@@ -234,6 +234,16 @@ body {
   font-size: 0.9rem;
   color: var(--primary);
   margin-bottom: 0.75rem;
+}
+
+/* 数据总览下的直接三级标题（总售卖/总下载拉新/站内周数据/站外曝光）加大 */
+#section-data-overview > .section-body > .subsection > h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-light);
 }
 
 /* ===== OKR模块 ===== */
@@ -280,7 +290,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #1B4332, #40916C);
+  background: linear-gradient(90deg, #4A90D9, #89C4F4);
   border-radius: 12px;
   transition: width 0.6s ease;
   display: flex;
@@ -312,7 +322,7 @@ body {
 }
 
 .data-card.highlight {
-  background: linear-gradient(135deg, #1B4332, #2D6A4F);
+  background: linear-gradient(135deg, #4A90D9, #6DB3F2);
   color: white;
   grid-column: span 2;
 }
