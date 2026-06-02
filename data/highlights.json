@@ -1,10 +1,24 @@
 {
   "W21": {
     "weekHighlights": "<p>W21本周重点待填写</p>",
-    "nextWeekPlan": [{"id":1,"task":"待填写","deliverable":"待填写","deadline":"-"}]
+    "nextWeekPlan": [
+      {
+        "id": 1,
+        "task": "待填写",
+        "deliverable": "待填写",
+        "deadline": "-"
+      }
+    ]
   },
   "W22": {
-    "weekHighlights": "<p>W22本周重点待填写</p>",
-    "nextWeekPlan": [{"id":1,"task":"待填写","deliverable":"待填写","deadline":"-"}]
+    "weekHighlights": "<p><b>一、站内</b></p><p>1、周五上新：</p><p><br></p><p>2、哺乳动物图书视频：沟通</p><p><br></p><p>3、图书内部跨部门合作：</p><p><ul><li>确定仍以之前与童书贺老师合作方式；</li><li>出版社：微生物和恐龙继续用海豚出版社，第6本图书开始更换新出版社，待童书贺老师后期给反馈；</li><li>上线：微生物图书暂定9月11日上市，待童书贺老师梳理后给最终反馈；</li></ul></p><p><br></p><p><b>二、站外</b></p><p><br></p><p>1、种草营销</p><p>-koc：</p><p>-素人：</p><p><br></p><p>2、线下展会</p><p>-朝阳科技周：售卖情况，现场反馈；</p><p>-凯叔线下展：</p>",
+    "nextWeekPlan": [
+      {
+        "id": 1,
+        "task": "待填写",
+        "deliverable": "待填写",
+        "deadline": "-"
+      }
+    ]
   }
 }
