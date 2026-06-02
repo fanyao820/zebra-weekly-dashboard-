@@ -508,73 +508,57 @@ function renderExposure(data) {
   const t = data.total;
   const entries = data.entries || [];
   container.innerHTML = `
-    <!-- 总数据卡片（蓝色边框+橘色数值） -->
-    <div class="data-grid compact" style="margin-bottom:1rem;">
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+    <!-- 总数据卡片（橘色数值） -->
+    <div class="data-grid compact" style="margin-bottom:1.5rem;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商城曝光UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.uv)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商城曝光PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.pv)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商品曝光PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.productPV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商品点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.clickUV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商品点击PV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.clickPV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">商品点击率</span>
         <span class="value" style="color:#E67E22;">${t.clickRate}%</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">Banner点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.bannerClickUV)}</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">Banner点击率</span>
         <span class="value" style="color:#E67E22;">${t.bannerClickRate}%</span>
       </div>
-      <div class="data-item" style="border-left:3px solid #1E5FC2;">
+      <div class="data-item" style="border-left:3px solid #E67E22;">
         <span class="label">分类栏点击UV</span>
         <span class="value" style="color:#E67E22;">${formatNumber(t.categoryClickUV)}</span>
       </div>
     </div>
-    <!-- 分入口数据表格 -->
-    <div class="table-wrapper">
-      <table class="data-table">
-        <thead>
-          <tr style="background:#EBF3FD;">
-            <th style="color:#1E5FC2;">拆分入口</th>
-            <th style="color:#1E5FC2;">曝光UV</th>
-            <th style="color:#1E5FC2;">曝光PV</th>
-            <th style="color:#1E5FC2;">人均访问次数</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background:#FFF8F0;">
-            <td style="color:#E67E22;font-weight:bold;">total</td>
-            <td style="color:#E67E22;font-weight:bold;">${formatNumber(t.uv)}</td>
-            <td style="color:#E67E22;font-weight:bold;">${formatNumber(t.pv)}</td>
-            <td style="color:#E67E22;font-weight:bold;">${t.avgVisit}</td>
-          </tr>
-          ${entries.map(e => `
-            <tr>
-              <td style="color:#1E5FC2;">${e.name}</td>
-              <td>${formatNumber(e.uv)}</td>
-              <td>${formatNumber(e.pv)}</td>
-              <td>${e.avgVisit}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+    <!-- 分入口数据（蓝色，两行两列卡片） -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem;">
+      ${entries.map(e => `
+        <div style="border:1px solid #e8e8e8;border-left:3px solid #1E5FC2;border-radius:6px;padding:0.8rem;">
+          <div style="font-weight:bold;color:#1E5FC2;margin-bottom:0.5rem;font-size:0.85rem;">${e.name}</div>
+          <div style="display:flex;justify-content:space-between;">
+            <div style="text-align:center;"><div style="font-size:0.7rem;color:#888;">曝光UV</div><div style="font-size:1rem;font-weight:bold;color:#1E5FC2;">${formatNumber(e.uv)}</div></div>
+            <div style="text-align:center;"><div style="font-size:0.7rem;color:#888;">曝光PV</div><div style="font-size:1rem;font-weight:bold;color:#1E5FC2;">${formatNumber(e.pv)}</div></div>
+            <div style="text-align:center;"><div style="font-size:0.7rem;color:#888;">人均访问</div><div style="font-size:1rem;font-weight:bold;color:#1E5FC2;">${e.avgVisit}</div></div>
+          </div>
+        </div>
+      `).join('')}
     </div>
     <!-- 曝光趋势图 -->
     <div class="chart-container" style="height:220px;margin-top:1rem;">
