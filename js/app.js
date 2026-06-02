@@ -514,8 +514,10 @@ function renderExposure(data) {
 // 渲染TOP-SKU
 function renderTopSKU(data) {
   const container = document.getElementById('topSKU');
+  // SKU数量显示在标题后
+  const skuCountEl = document.getElementById('skuCount');
+  if (skuCountEl) skuCountEl.textContent = `（共${data.totalCount}个SKU）`;
   container.innerHTML = `
-    <div class="sku-summary">总SKU量：<strong>${data.totalCount}</strong></div>
     <div class="table-wrapper">
       <table class="data-table">
         <thead>
