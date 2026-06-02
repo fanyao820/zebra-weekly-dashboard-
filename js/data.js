@@ -155,13 +155,15 @@ const MOCK_DATA = {
       // 商城曝光数据（AI商城 0525-0531 周数据）
       exposure: {
         // 总数据（橘色）
-        total: { uv: 22551, pv: 27757, avgVisit: 1.2, productPV: 403019, clickUV: 6261, clickPV: 15435, clickRate: 28.3, bannerClickUV: 767, bannerClickRate: 3.4, categoryClickUV: 2270 },
+        total: { uv: 22551, pv: 27757, avgVisit: 1.2, productPV: 403019, clickUV: 6261, clickPV: 15435, clickRate: 28.3, bannerClickUV: 767, bannerClickRate: 3.4, categoryClickUV: 2270,
+          wow: { pv: 69.6, uv: 72.0, avgVisit: 0 }
+        },
         // 分入口（蓝色）
         entries: [
-          { name: "家长中心btn", uv: 2968, pv: 3617, avgVisit: 1.2 },
-          { name: "家长中心", uv: 2634, pv: 3058, avgVisit: 1.2 },
-          { name: "会员管理页", uv: 360, pv: 412, avgVisit: 1.1 },
-          { name: "购买成功页", uv: 94, pv: 100, avgVisit: 1.1 }
+          { name: "家长中心btn", uv: 2968, pv: 3617, avgVisit: 1.2, wow: { uv: -2.7, pv: -4.4 } },
+          { name: "家长中心", uv: 2634, pv: 3058, avgVisit: 1.2, wow: { uv: -18.1, pv: -19.3 } },
+          { name: "会员管理页", uv: 360, pv: 412, avgVisit: 1.1, wow: { uv: -9.3, pv: -9.3 } },
+          { name: "购买成功页", uv: 94, pv: 100, avgVisit: 1.1, wow: { uv: -1.1, pv: -2.0 } }
         ]
       },
       // TOP-SKU（渠道商品数据 W22 本周）
