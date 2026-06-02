@@ -1213,3 +1213,43 @@ body {
   .sidebar, .sidebar-overlay { display: none !important; }
   .toast { display: none !important; }
 }
+
+/* 编辑器内表格样式 */
+#dataNotesEditor table,
+#weekHighlightsEditor table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+  background: #fff;
+}
+
+#dataNotesEditor table th,
+#weekHighlightsEditor table th {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 2px solid #1E5FC2;
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #1E5FC2;
+  font-size: 0.75rem;
+}
+
+#dataNotesEditor table td,
+#weekHighlightsEditor table td {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+  font-size: 0.78rem;
+}
+
+#dataNotesEditor table tbody tr:hover,
+#weekHighlightsEditor table tbody tr:hover {
+  background: #f8faff;
+}
+
+#dataNotesEditor table tbody tr:nth-child(even),
+#weekHighlightsEditor table tbody tr:nth-child(even) {
+  background: #fafbfd;
+}
